@@ -12,12 +12,16 @@ export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const { games, events } = await api.feed();
-  const hero = games[0];
-  if (!hero) throw new Error("게임 카탈로그가 비어 있습니다.");
   const today = new Date();
   const todayLabel = today.toLocaleDateString("ko-KR", { month: "long", day: "numeric", timeZone: "Asia/Seoul" });
   const calendarParts = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul", year: "numeric", month: "2-digit" }).formatToParts(today);
-  const calendarHref = `/releases/${calendarParts.find((part) => part.type === "year")?.value}/${calendarParts.find((part) => part.type === "month")?.value}`;
+  const currentYear = calendarParts.find((part) => part.type === "year")?.value ?? String(today.getFullYear());
+  const calendarHref = `/releases/${currentYear}/${calendarParts.find((part) => part.type === "month")?.value}`;
+  const hero = games[0];
+  // 카탈로그가 비면 예전에는 throw 해서 홈이 500 이 났다. 첫 실행(동기화 전)에 바로 걸린다.
+  if (!hero) {
+    return <main className="page-shell shell"><div className="page-hero compact"><span className="eyebrow">NEXPLAY</span><h1>아직 보여드릴 게임이 없어요.</h1><p>카탈로그 동기화가 끝나면 올해 신작과 공식 소식이 이곳에 채워집니다.</p></div></main>;
+  }
   const upcoming = games
     .filter((game) => game.status === "Upcoming" && game.releaseDate !== "TBA")
     .sort((a, b) => a.releaseDate.localeCompare(b.releaseDate))
@@ -32,12 +36,18 @@ export default async function Home() {
     .filter((event): event is GameEvent => Boolean(event))
     .filter((event, index, list) => event.id !== primaryEvent?.id && list.findIndex((item) => item.id === event.id) === index)
     .slice(0, 4);
+  // 예전에는 games.slice(4, 6) 이라 "가장 안 숨은" 5·6번째가 숨은 기대작으로 나갔다.
+  // 대형사 소속이 아니고 팔로워가 적은 순으로, 기대 지수가 높은 게임을 고른다.
+  const hiddenGems = games
+    .filter((game) => !game.featured && game.status === "Upcoming")
+    .sort((a, b) => a.score - b.score || b.anticipationScore - a.anticipationScore)
+    .slice(0, 2);
   const updateCount = events.filter((event) => ["MAJOR_UPDATE", "PATCH"].includes(event.type)).length;
   const expansionCount = events.filter((event) => ["EXPANSION", "DLC"].includes(event.type)).length;
   return <main>
     <section className="hero shell">
-      <div className="hero-copy"><span className="live-pill"><i/> 오늘 · {todayLabel}</span><p className="hero-kicker">2026년 신작 발견</p><h1>다음 플레이를<br/><em>발견하세요.</em></h1><p className="hero-sub">올해 출시작부터 주요 게임사의 최신작까지.<br className="desktop-only"/> 중요한 일정과 공식 소식을 한곳에서 만나보세요.</p><div className="hero-actions"><Link className="primary-button" href="/discover">게임 둘러보기 <ArrowIcon/></Link><Link className="text-button" href={calendarHref}><CalendarIcon/> 출시 일정</Link></div><div className="today-stats"><div><strong>{games.filter((game) => game.releaseDate.startsWith("2026")).length}</strong><span>2026년 신작</span></div><div><strong>{events.length}</strong><span>공식 소식</span></div><div><strong>{upcoming.length}</strong><span>출시 임박</span></div></div></div>
-      <Link href={`/games/${hero.slug}`} className="hero-feature"><GameArt game={hero}/><div className="hero-feature-overlay"><div><span className="official light">2026 신작</span><span className="hero-date">{hero.releaseLabel}</span></div><h2>{hero.title}</h2><p>{hero.tagline}</p><span className="feature-link">게임 자세히 보기 <ArrowIcon/></span></div></Link>
+      <div className="hero-copy"><span className="live-pill"><i/> 오늘 · {todayLabel}</span><p className="hero-kicker">{currentYear}년 신작 발견</p><h1>다음 플레이를<br/><em>발견하세요.</em></h1><p className="hero-sub">올해 출시작부터 주요 게임사의 최신작까지.<br className="desktop-only"/> 중요한 일정과 공식 소식을 한곳에서 만나보세요.</p><div className="hero-actions"><Link className="primary-button" href="/discover">게임 둘러보기 <ArrowIcon/></Link><Link className="text-button" href={calendarHref}><CalendarIcon/> 출시 일정</Link></div><div className="today-stats"><div><strong>{games.filter((game) => game.releaseDate.startsWith(currentYear)).length}</strong><span>{currentYear}년 신작</span></div><div><strong>{events.length}</strong><span>공식 소식</span></div><div><strong>{upcoming.length}</strong><span>출시 임박</span></div></div></div>
+      <Link href={`/games/${hero.slug}`} className="hero-feature"><GameArt game={hero}/><div className="hero-feature-overlay"><div><span className="official light">{currentYear} 신작</span><span className="hero-date">{hero.releaseLabel}</span></div><h2>{hero.title}</h2><p>{hero.tagline}</p><span className="feature-link">게임 자세히 보기 <ArrowIcon/></span></div></Link>
     </section>
 
     <section id="trending" className="content-section shell"><SectionHeading eyebrow="인기 급상승" title="지금 가장 주목받는 게임" href="/discover"/><TrendingCarousel games={games}/></section>
@@ -46,6 +56,6 @@ export default async function Home() {
 
     <section id="upcoming" className="content-section shell"><SectionHeading eyebrow="출시 예정" title="곧 만날 수 있는 게임" href={calendarHref} action="캘린더 보기"/><div className="upcoming-list">{upcoming.map((game) => { const date = new Date(`${game.releaseDate}T00:00:00`); return <Link key={game.id} className="upcoming-item" href={`/games/${game.slug}`}><span className="date-block"><small>{date.getMonth() + 1}월</small><strong>{date.getDate()}</strong></span><GameArt game={game}/><span className="upcoming-copy"><strong>{game.title}</strong><small>{game.genres.join(" · ")}</small></span><span className="platforms">{game.platforms.slice(0, 2).join(" · ")}</span><ArrowIcon/></Link>; })}</div></section>
 
-    <section className="hidden-gems shell"><div className="gem-intro"><span className="gem-icon"><SparkIcon/></span><span className="eyebrow">숨은 기대작</span><h2>아직 모두가 알기 전,<br/>먼저 발견해보세요.</h2><p>규모보다 가능성을 봅니다. 관심은 적지만 반응이 빠르게 오르는 게임을 골랐어요.</p><Link className="text-button" href="/discover">숨은 기대작 더 보기 <ArrowIcon/></Link></div><div className="gem-cards">{games.slice(4, 6).map((game) => <GameCard key={game.id} game={game}/>)}</div></section>
+    <section className="hidden-gems shell"><div className="gem-intro"><span className="gem-icon"><SparkIcon/></span><span className="eyebrow">숨은 기대작</span><h2>아직 모두가 알기 전,<br/>먼저 발견해보세요.</h2><p>규모보다 가능성을 봅니다. 관심은 적지만 반응이 빠르게 오르는 게임을 골랐어요.</p><Link className="text-button" href="/discover">숨은 기대작 더 보기 <ArrowIcon/></Link></div><div className="gem-cards">{hiddenGems.map((game) => <GameCard key={game.id} game={game}/>)}</div></section>
   </main>;
 }

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { api } from "@/lib/api";
+import { notFound } from "next/navigation";
+import { api, NexplayNotFoundError } from "@/lib/api";
 import { GameArt } from "@/components/game-art";
 import { BookmarkButton } from "@/components/bookmark-button";
 import { EventCard } from "@/components/event-card";
@@ -11,8 +12,13 @@ import { ArrowIcon, PlayIcon } from "@/components/icons";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const game = await api.game(slug);
-  return { title: game.title };
+  try {
+    const game = await api.game(slug);
+    return { title: game.title };
+  } catch (error) {
+    if (error instanceof NexplayNotFoundError) return { title: "게임을 찾을 수 없어요" };
+    throw error;
+  }
 }
 
 const relationLabels: Record<string, string> = { DLC: "DLC", EXPANSION: "확장팩", SEQUEL: "후속작", PREQUEL: "전작", REMAKE: "리메이크", REMASTER: "리마스터" };
@@ -22,8 +28,22 @@ const formatPrice = (value: number, currency: string) => new Intl.NumberFormat("
 
 export default async function GamePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [game, events, allGames, metadata] = await Promise.all([api.game(slug), api.gameEvents(slug), api.games(), api.gameMetadata(slug)]);
-  const related = allGames.filter((item) => item.slug !== slug).slice(0, 3);
+  let game: Awaited<ReturnType<typeof api.game>>;
+  try {
+    game = await api.game(slug);
+  } catch (error) {
+    // 없는 slug 는 500 이 아니라 404 여야 한다. not-found.tsx 가 이미 있다.
+    if (error instanceof NexplayNotFoundError) notFound();
+    throw error;
+  }
+  // 예전에는 관련작 3개를 뽑으려고 전체 카탈로그를 받아 상위 3개를 그대로 썼다.
+  // 장르를 서버로 넘겨 실제로 "관련" 있는 게임만 받는다.
+  const [events, metadata, sameGenre] = await Promise.all([
+    api.gameEvents(slug),
+    api.gameMetadata(slug),
+    api.games(game.genres[0]),
+  ]);
+  const related = sameGenre.filter((item) => item.slug !== slug).slice(0, 3);
   const statusLabel = game.status === "Available" ? "출시됨" : game.status === "Upcoming" ? "출시 예정" : "일정 미정";
   const trailer = metadata.media.find((item) => item.official && (item.type === "TRAILER" || item.type === "GAMEPLAY"));
   const screenshots = metadata.media.filter((item) => item.type === "SCREENSHOT").slice(0, 6);
