@@ -87,7 +87,7 @@ button { color:inherit; }
 .game-card p { color:var(--muted); margin:0; font-size:13px; }
 .bookmark-button { width:31px; height:31px; flex:none; display:grid; place-items:center; border-radius:50%; border:1px solid #e5e6e0; background:white; cursor:pointer; }
 .bookmark-button:hover,.bookmark-button.saved { border-color:#b8db5b; background:#efffc7; }
-.bookmark-button.large { width:auto; height:47px; display:flex; gap:9px; border-radius:4px; padding:0 18px; color:white; border-color:white; background:white; color:var(--surface-sunken); font-weight:700; }
+.bookmark-button.large { width:auto; height:47px; display:flex; gap:9px; border-radius:4px; padding:0 18px; border-color:var(--border-strong); background:var(--surface-2); color:var(--text-strong); font-weight:700; }
 .bookmark-button.large.saved { background:var(--lime); border-color:var(--lime); }
 .tag-row { display:flex; flex-wrap:wrap; gap:5px; margin-top:17px; }
 .tag-row.large { margin-top:23px; }
@@ -102,7 +102,7 @@ button { color:inherit; }
 .score-pair strong { color:var(--accent-text); font:800 18px/1 "Manrope"; }
 .score-pair>span:last-child strong { color:var(--lime); }
 
-.dark-band { background:var(--dark); color:white; padding-block:80px; }
+.dark-band { background:var(--dark); color:var(--text); padding-block:80px; }
 .dark-band .eyebrow { color:var(--lime); }
 .dark-band .section-heading>a { color:var(--text); }
 .magazine-heading { display:grid; grid-template-columns:1fr auto; align-items:end; gap:24px; }
@@ -130,7 +130,7 @@ button { color:inherit; }
 .event-labels { display:flex; align-items:center; flex-wrap:wrap; gap:7px; }
 .event-type,.official { padding:5px 7px; border-radius:3px; font-size:12px; line-height:1; font-weight:800; letter-spacing:.4px; background:var(--lime); color:var(--surface-sunken); }
 .event-type.release_date { background:#ffe178; color:var(--on-bright); }.event-type.announcement { background:var(--orange); color:var(--on-orange); }.event-type.trailer { background:#75dbff; color:var(--on-bright); }
-.event-type.major_update { background:#af52ff; color:white; }.event-type.patch { background:#4d8dff; color:white; }.event-type.expansion,.event-type.dlc { background:#ffb84d; color:var(--on-bright); }
+.event-type.major_update { background:#8127d6; color:var(--on-accent); }.event-type.patch { background:#2a63c8; color:var(--on-accent); }.event-type.expansion,.event-type.dlc { background:#ffb84d; color:var(--on-bright); }
 .official { border:1px solid #79c897; background:transparent; color:var(--success); }
 .official.light { border:0; background:white; color:var(--surface-sunken); }
 .event-copy h3 { margin:14px 0 8px; font:700 18px/1.25 "Manrope"; letter-spacing:-.55px; }
@@ -192,7 +192,7 @@ button { color:inherit; }
 .popular-searches>span { font-size:13px; color:var(--muted); margin-right:4px; }
 .popular-searches button { padding:6px 10px; }
 
-.detail-hero { position:relative; overflow:hidden; background:var(--surface-sunken); color:white; }
+.detail-hero { position:relative; overflow:hidden; background:var(--surface-sunken); color:var(--text); }
 .detail-backdrop { position:absolute; inset:0; opacity:.38; background:radial-gradient(circle at 77% 35%,var(--accent-2),transparent 30%),radial-gradient(circle at 5% 70%,var(--accent),transparent 36%); filter:saturate(.8); }
 .detail-backdrop:after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgba(15,16,13,.97) 20%,rgba(15,16,13,.55),rgba(15,16,13,.82)); }
 .detail-hero-inner { min-height:470px; position:relative; display:grid; grid-template-columns:minmax(360px,440px) 1fr; align-items:center; gap:55px; padding-block:64px; }
@@ -397,7 +397,7 @@ body>main,body>.site-footer { margin-left:220px; }
 .dark-band { background:var(--bg); border-block:1px solid var(--surface-3); }.dark-band .eyebrow { color:var(--accent-violet); }.event-card { background:var(--surface-2); border-color:var(--surface-3); border-radius:6px; }.event-card:hover { border-color:var(--border-strong); }.event-copy h3 { transition:color .16s ease; }.event-copy a:hover h3 { color:var(--accent-text); }.event-type { background:var(--lime-deep); color:var(--on-accent); }.official { color:var(--accent-text-soft); border-color:#426ca0; }.event-copy>p,.event-footer { color:var(--muted-2); }.event-footer { border-color:var(--divider); }
 .magazine-index span { padding:2px 14px; border:0; border-left:1px solid var(--border-strong); border-radius:0; color:var(--muted); }.magazine-index span:first-child { padding-left:0; border-left:0; }
 .upcoming-list { border-color:var(--border); }.upcoming-item { border-color:var(--border); }.upcoming-item:hover { padding-inline:8px; color:var(--text-strong); background:var(--surface-2); }.upcoming-item:hover .upcoming-copy strong,.upcoming-item:hover>svg { color:var(--text-strong); }.date-block { border-color:var(--border); }.date-block small,.upcoming-copy small,.platforms { color:var(--muted-2); }
-.hidden-gems { background:var(--surface); border:1px solid var(--border); border-left:3px solid #6650c7; border-radius:4px; }.hidden-gems:before { display:none; }.gem-icon { background:var(--lime); color:white; }.gem-intro p { color:var(--muted); }
+.hidden-gems { background:var(--surface); border:1px solid var(--border); border-left:3px solid #6650c7; border-radius:4px; }.hidden-gems:before { display:none; }.gem-icon { background:var(--lime-deep); color:var(--on-accent); }.gem-intro p { color:var(--muted); }
 
 .site-footer { background:var(--bg); color:var(--muted); border-top:1px solid var(--surface-2); }.footer-brand { color:var(--text-strong); font:800 16.5px "Manrope"; letter-spacing:1px; }
 .page-hero p,.long-copy { color:var(--muted); }.filter-bar { border-color:var(--surface-3); }.chip-group button,.chip-group a,.popular-searches button,.month-nav button,.month-nav a,.month-nav>span { border-color:var(--border-strong); color:var(--muted); background:var(--surface); }.chip-group button:hover,.chip-group button.selected,.chip-group a:hover,.chip-group a.selected,.popular-searches button:hover { color:var(--text-strong); border-color:#6f79c9; background:var(--border); }.month-nav a:hover:not(.current) { color:var(--text-strong); border-color:#52627f; background:var(--surface-2); }.month-nav a.current { color:var(--on-accent); border-color:#7464d8; background:var(--lime-deep); }.filter-bar select { color:var(--text); background:var(--surface-sunken); }.result-meta { color:var(--muted-2); }.result-meta strong { color:var(--text-strong); }.empty-panel { border-color:var(--border-strong); background:var(--surface); }
