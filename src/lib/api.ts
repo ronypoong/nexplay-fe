@@ -10,9 +10,21 @@ export class NexplayNotFoundError extends Error {
   }
 }
 
+/**
+ * 백엔드 데이터는 하루 한 번(06:00 KST 동기화) 바뀐다.
+ *
+ * 예전에는 `no-store` 라 방문 한 번이 그대로 원본 호출이 됐다. 서울에서 원본까지
+ * 왕복이 0.7초쯤이라, 서버를 아무리 빠르게 해도 이 몫은 줄지 않았다.
+ *
+ * 백엔드가 `Cache-Control: public, max-age=600` 을 보내므로, 여기서 막지만 않으면
+ * 워커의 바깥 호출이 Cloudflare 엣지에 캐시된다. 관리 화면에서 고친 것은
+ * 백엔드가 캐시를 비우고 최대 10분 뒤에 따라온다.
+ */
+const REVALIDATE_SECONDS = 600;
+
 async function request<T>(path: string): Promise<T> {
   if (!API_BASE) throw new Error("NEXT_PUBLIC_NEXPLAY_API_BASE_URL is required");
-  const response = await fetch(`${API_BASE}${path}`, { cache: "no-store" });
+  const response = await fetch(`${API_BASE}${path}`, { next: { revalidate: REVALIDATE_SECONDS } });
   if (response.status === 404) throw new NexplayNotFoundError(path);
   if (!response.ok) throw new Error(`NEXPLAY API ${response.status}`);
   return (await response.json()) as T;
