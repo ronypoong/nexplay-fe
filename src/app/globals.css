@@ -649,3 +649,6 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 .silence-days { text-align:right; color:var(--muted); font-size:12.5px; }
 .silence-days b { display:block; color:var(--orange); font:800 20px/1.1 "Manrope",sans-serif; }
 @media (max-width:720px) { .silence-row { grid-template-columns:1fr 74px; } .silence-rhythm { display:none; } }
+
+/* 담아둔 게임이 비었을 때 */
+.empty-panel p { margin:10px 0 18px; color:var(--muted); font-size:14px; max-width:52ch; }

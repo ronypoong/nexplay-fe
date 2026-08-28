@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./theme-toggle";
 import { useEffect, useState } from "react";
-import { CalendarIcon, DiscoverIcon, HomeIcon, MenuIcon, NewsIcon, SearchIcon, SparkIcon, TrendingIcon } from "./icons";
+import { CalendarIcon, DiscoverIcon, HomeIcon, MenuIcon, NewsIcon, SearchIcon, SparkIcon, TrendingIcon, BookmarkIcon } from "./icons";
 
 const homeSections = ["trending", "announced", "editor-picks", "upcoming"];
 
@@ -28,6 +28,7 @@ export function Header() {
     { href: "/trends", label: "추세와 연기", icon: <TrendingIcon size={16}/> },
     { href: "/goty", label: "GOTY 아카이브", icon: <SparkIcon size={16}/> },
     { href: "/promises", label: "약속과 결과", icon: <NewsIcon size={16}/> },
+    { href: "/saved", label: "담아둔 게임", icon: <BookmarkIcon size={16}/> },
     { href: "/discover", label: "게임 탐색", icon: <DiscoverIcon size={16}/> },
     { href: currentCalendarHref(), label: "출시 캘린더", icon: <CalendarIcon size={16}/> },
   ];

@@ -1,11 +1,21 @@
 "use client";
 
-import { useState } from "react";
 import { BookmarkIcon } from "./icons";
+import { isSaved, toggleSaved, useSavedGames } from "@/lib/saved-games";
 
-export function BookmarkButton({ large = false }: { large?: boolean }) {
-  const [saved, setSaved] = useState(false);
-  return <button className={`bookmark-button ${large ? "large" : ""} ${saved ? "saved" : ""}`} onClick={() => setSaved((value) => !value)} aria-pressed={saved}>
-    <BookmarkIcon size={large ? 19 : 17} fill={saved ? "currentColor" : "none"}/>{large && <span>{saved ? "관심 게임 등록됨" : "관심 게임"}</span>}
-  </button>;
+export function BookmarkButton({ slug, large = false }: { slug: string; large?: boolean }) {
+  const saved = useSavedGames();
+  const on = isSaved(saved, slug);
+  return (
+    <button
+      type="button"
+      className={`bookmark-button ${large ? "large" : ""} ${on ? "saved" : ""}`}
+      onClick={() => toggleSaved(slug)}
+      aria-pressed={on}
+      aria-label={on ? "담아둔 게임에서 빼기" : "담아둔 게임에 넣기"}
+    >
+      <BookmarkIcon size={large ? 19 : 17} fill={on ? "currentColor" : "none"}/>
+      {large && <span>{on ? "담아둔 게임" : "담아두기"}</span>}
+    </button>
+  );
 }
