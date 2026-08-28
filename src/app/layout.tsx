@@ -22,5 +22,11 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="ko" data-scroll-behavior="smooth"><body><Header/>{children}<footer className="site-footer"><div className="shell"><span className="footer-brand">NEX<span>PLAY</span></span><p>다음에 플레이할 게임을 발견하는 가장 빠른 방법.</p><span>© 2026 RUBI-ON</span></div></footer></body></html>;
+  // 저장된 테마를 React 가 붙기 전에 적용한다. 이게 없으면 첫 프레임에
+  // 반대 테마가 번쩍이고 나서 바뀐다.
+  const themeBootstrap = `try{var t=localStorage.getItem("nexplay-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}`;
+  return <html lang="ko" data-scroll-behavior="smooth" suppressHydrationWarning>
+    <head><script dangerouslySetInnerHTML={{ __html: themeBootstrap }}/></head>
+    <body><Header/>{children}<footer className="site-footer"><div className="shell"><span className="footer-brand">NEX<span>PLAY</span></span><p>다음에 플레이할 게임을 발견하는 가장 빠른 방법.</p><span>© 2026 RUBI-ON</span></div></footer></body>
+  </html>;
 }

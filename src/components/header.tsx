@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ThemeToggle } from "./theme-toggle";
 import { useEffect, useState } from "react";
 import { CalendarIcon, DiscoverIcon, HomeIcon, MenuIcon, NewsIcon, SearchIcon, SparkIcon, TrendingIcon } from "./icons";
 
@@ -58,6 +59,7 @@ export function Header() {
         {nav.map((item) => <Link key={item.label} className={isActive(item.href) ? "active" : ""} href={item.href} onClick={() => { const hash = item.href.split("#")[1]; if (pathname === "/") setActiveHash(hash ?? ""); }}><span className="nav-icon">{item.icon}</span>{item.label}</Link>)}
       </nav>
       <div className="header-actions">
+        <ThemeToggle/>
         <Link className="sidebar-search" href="/search"><SearchIcon size={17}/><span>게임과 회사를 검색</span></Link>
         <button className="icon-button mobile-only" aria-label="메뉴"><MenuIcon /></button>
       </div>
