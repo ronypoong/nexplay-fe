@@ -37,6 +37,10 @@ export type Game = {
   symbol: string;
   featured?: boolean;
   awardBadge?: AwardBadge | null;
+  /** 기대를 누른 사람 수. 아직 적으면 null 이라 화면에서 감춘다. */
+  anticipations?: number | null;
+  /** 누적 조회수. 아직 적으면 null 이다. */
+  views?: number | null;
 };
 
 export type GameMetadata = {

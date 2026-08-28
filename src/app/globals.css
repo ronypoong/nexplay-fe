@@ -664,3 +664,7 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 .anticipate-note { color:var(--muted); font-size:12.5px; }
 
 /* 기대 이유 입력은 화면에서 내렸다. 서버는 계속 받을 수 있어 다시 켤 때 여기만 되살리면 된다. */
+
+/* 카드의 사람 수 — 기대와 조회 */
+.card-audience { display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:8px; color:var(--muted); font-size:12.5px; font-weight:600; }
+.card-audience span { display:inline-flex; align-items:center; gap:5px; }
