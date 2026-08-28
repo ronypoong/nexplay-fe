@@ -613,3 +613,17 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 .promise-card footer { display:flex; flex-wrap:wrap; align-items:center; gap:12px; font-size:13px; }
 .promise-slip { font-weight:700; color:var(--orange); }
 .promise-card footer .muted { color:var(--muted); }
+
+/* 소식 카드의 부가 표시 — 체험판·할인·홍보성 */
+.event-flag { padding:3px 8px; border-radius:3px; background:var(--surface-3); color:var(--text); font-size:12px; font-weight:700; }
+.event-flag.sale { background:var(--orange); color:var(--on-orange); }
+.event-flag.muted-flag { background:transparent; border:1px solid var(--border-strong); color:var(--muted); font-weight:600; }
+
+/* 게임 상세의 약속 이력 — 발표 순서대로 읽으면 그 게임이 걸어온 길이 나온다 */
+.promise-timeline { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px; }
+.promise-timeline li { display:grid; grid-template-columns:132px 1fr; gap:16px; padding:16px 18px; border:1px solid var(--border); border-radius:6px; background:var(--surface); }
+.promise-when { display:flex; flex-direction:column; gap:7px; align-items:flex-start; }
+.promise-when strong { font:700 13px/1 "Manrope",sans-serif; color:var(--muted); }
+.promise-what strong { display:block; margin-bottom:7px; font-size:15px; color:var(--text-strong); }
+.promise-what small { display:block; margin-top:8px; font-size:12.5px; }
+@media (max-width:640px) { .promise-timeline li { grid-template-columns:1fr; gap:10px; } }

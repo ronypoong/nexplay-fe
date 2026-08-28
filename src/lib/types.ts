@@ -65,6 +65,12 @@ export type GameEvent = {
   source: string;
   official: boolean;
   sourceCount: number;
+  /** 모델이 원문에서 뽑은 한국어 한 줄. 원문이 영어·일본어면 이게 없으면 제목만 남는다. */
+  summaryKo: string | null;
+  hasDemo: boolean;
+  discountPercent: number | null;
+  /** 게임 내용과 무관한 마케팅 잡음. 홈에서는 빠지고 게임 이력에만 남는다. */
+  marketingNoise: boolean;
 };
 
 /** 목록용. 상세에서만 쓰는 description 이 없다. */

@@ -48,6 +48,9 @@ const releaseLabels: Record<string, string> = { INITIAL_CONFIRMATION: "최초 �
 const cleanText = (value?: string | null) => value?.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 const formatPrice = (value: number, currency: string) => new Intl.NumberFormat("ko-KR", { style: "currency", currency }).format(value / 100);
 
+const PROMISE_STATUS: Record<string, string> = { KEPT: "지켜짐", BROKEN: "어겨짐", SUPERSEDED: "미뤄짐", PENDING: "판정 전" };
+const PROMISE_CLAIM: Record<string, string> = { RELEASE_DATE: "출시 시점", KOREAN_SUPPORT: "한국어 지원", CONTENT: "콘텐츠", PLATFORM: "플랫폼", DEMO: "체험판" };
+
 export default async function GamePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   let game: Awaited<ReturnType<typeof api.game>>;
@@ -60,10 +63,12 @@ export default async function GamePage({ params }: { params: Promise<{ slug: str
   }
   // 관련작은 서버가 장르 겹침으로 골라 3개만 보낸다.
   // 예전에는 장르로 필터링해도 카탈로그 수백 개를 받아 3개만 쓰고 버렸다.
-  const [events, metadata, related] = await Promise.all([
+  const [events, metadata, related, promises] = await Promise.all([
     api.gameEvents(slug),
     api.gameMetadata(slug),
     api.relatedGames(slug).catch(() => []),
+    // 약속 이력이 없는 게임이 대부분이다. 없다고 해서 상세 화면이 죽으면 안 된다.
+    api.gamePromises(slug).catch(() => []),
   ]);
   const statusLabel = game.status === "Available" ? "출시됨" : game.status === "Upcoming" ? "출시 예정" : "일정 미정";
   const trailer = metadata.media.find((item) => item.official && (item.type === "TRAILER" || item.type === "GAMEPLAY"));
@@ -99,6 +104,27 @@ export default async function GamePage({ params }: { params: Promise<{ slug: str
       {metadata.systemRequirements.length > 0 && <section><SectionHeading eyebrow="PC 정보" title="시스템 요구사항"/><div className="requirement-grid">{metadata.systemRequirements.map((item) => <article className="data-panel" key={`${item.platform}-${item.level}`}><small>{item.level === "MINIMUM" ? "최소 사양" : "권장 사양"}</small><p>{cleanText(item.rawText)}</p><footer>{item.source} 확인</footer></article>)}</div></section>}
       {metadata.relations.length > 0 && <section><SectionHeading eyebrow="게임 세계" title="관련 게임과 콘텐츠"/><div className="relation-list">{metadata.relations.map((item, index) => <a href={item.slug ? `/games/${item.slug}` : item.url ?? "#"} key={`${item.title}-${index}`}><span>{relationLabels[item.type] ?? item.type}</span><strong>{item.title}</strong><ArrowIcon/></a>)}</div></section>}
       <section><SectionHeading eyebrow="출시 기록" title="플랫폼별 일정 이력"/><div className="release-history">{metadata.releaseHistory.slice(0, 12).map((item, index) => <div key={`${item.platform}-${index}`}><span>{item.platform}</span><strong>{item.newDate ?? "일정 미정"}</strong><small>{releaseLabels[item.type] ?? item.type} · {item.source}</small></div>)}</div></section>
+      {promises.length > 0 && <section>
+        <SectionHeading eyebrow="약속과 결과" title="이 게임이 한 약속"/>
+        <p className="section-note">공식 발표에서 뽑은 약속입니다. 지켜졌는지는 실제 출시일·언어 이력과 대조해 정합니다.</p>
+        <ol className="promise-timeline">
+          {promises.map((p, index) => <li key={`${p.announcedAt}-${p.claimType}-${index}`}>
+            <div className="promise-when">
+              <strong>{p.announcedAt}</strong>
+              <span className={`promise-badge ${p.status.toLowerCase()}`}>{PROMISE_STATUS[p.status]}</span>
+            </div>
+            <div className="promise-what">
+              <span className="promise-type">{PROMISE_CLAIM[p.claimType]}</span>
+              <strong>{p.claimedValue}</strong>
+              {p.sourceQuote && <blockquote className="promise-quote">{p.sourceQuote}</blockquote>}
+              <small>
+                {p.slipDays != null && p.slipDays > 0 && <span className="promise-slip">{p.slipDays}일 밀림</span>}
+                {p.evidence && <span className="muted"> {p.evidence}</span>}
+              </small>
+            </div>
+          </li>)}
+        </ol>
+      </section>}
       <section><SectionHeading eyebrow="게임 타임라인" title="주요 이벤트"/>{events.length ? <div className="timeline">{events.map((event) => <div className="timeline-row" key={event.id}><span className="timeline-dot"/><EventCard event={event} game={game}/></div>)}</div> : <div className="empty-panel"><strong>아직 기록된 이벤트가 없어요.</strong></div>}</section>
     </div><aside className="detail-aside"><div className="info-panel"><h3>게임 정보</h3><div className="detail-scores"><div><small>NEXPLAY 지수</small><strong>{game.score}</strong><span>작품 정보와 화제성 종합</span></div><div><small>기대 지수</small><strong>{game.anticipationScore}</strong><span>출시 전 관심도</span></div></div><div className="completeness"><div><span>데이터 완성도</span><strong>{metadata.completenessScore}%</strong></div><i><b style={{ width: `${metadata.completenessScore}%` }}/></i>{metadata.missingData.length > 0 && <small>보강 중: {metadata.missingData.join(" · ")}</small>}</div><dl><div><dt>퍼블리셔</dt><dd>{game.publisher}</dd></div><div><dt>출시 상태</dt><dd>{statusLabel}</dd></div><div><dt>게임 모드</dt><dd>{game.gameModes?.join(" · ") || "확인 중"}</dd></div><div><dt>한국어</dt><dd>{game.koreanTextSupported == null ? "확인 중" : game.koreanTextSupported ? `자막${game.koreanAudioSupported ? " · 음성" : ""}` : "미지원"}</dd></div>{latestPopularity && <div><dt>30일 공식 소식</dt><dd>{latestPopularity.officialNews30d}건</dd></div>}</dl>{metadata.prices[0] && <div className="price-box"><small>{metadata.prices[0].store} · {metadata.prices[0].region}</small><strong>{formatPrice(metadata.prices[0].finalPrice, metadata.prices[0].currency)}</strong>{metadata.prices[0].discountPercent > 0 && <span>{metadata.prices[0].discountPercent}% 할인</span>}</div>}{(metadata.ageRatings.length > 0 || metadata.accessibility.length > 0) && <div className="trust-data">{metadata.ageRatings.map((item) => <span key={item.system}>{item.system} {item.rating}</span>)}{metadata.accessibility.slice(0, 4).map((item) => <span key={item.feature}>{item.feature}</span>)}</div>}<hr/>{game.officialUrl && <a href={game.officialUrl} target="_blank" rel="noreferrer">공식 웹사이트 <ArrowIcon/></a>}{game.steamAppId && <a href={`https://store.steampowered.com/app/${game.steamAppId}`} target="_blank" rel="noreferrer">Steam 페이지 <ArrowIcon/></a>}<small className="verified-note">최근 검증: {metadata.provenance[0]?.verifiedAt.slice(0, 10) ?? "확인 중"}</small></div></aside></div>
     <section className="content-section shell"><SectionHeading eyebrow="함께 볼 게임" title="이런 게임도 살펴보세요"/><div className="card-grid three">{related.map((item) => <GameCard key={item.id} game={item}/>)}</div></section>
