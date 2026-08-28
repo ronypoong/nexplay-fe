@@ -1,4 +1,4 @@
-import type { EditorPick, Feed, Game, GameCard, GameEvent, GameMetadata, GameRelease, Goty, KoreanRadar, PromiseLedger, PromiseRow, Trends } from "./types";
+import type { SyncStatus, EditorPick, Feed, Game, GameCard, GameEvent, GameMetadata, GameRelease, Goty, KoreanRadar, PromiseLedger, PromiseRow, Trends } from "./types";
 
 const API_BASE = process.env.NEXT_PUBLIC_NEXPLAY_API_BASE_URL;
 
@@ -44,5 +44,6 @@ export const api = {
   trends: () => request<Trends>("/api/v1/trends"),
   goty: () => request<Goty>("/api/v1/goty"),
   promises: () => request<PromiseLedger>("/api/v1/promises"),
+  status: () => request<SyncStatus>("/api/v1/status"),
   gamePromises: (slug: string) => request<PromiseRow[]>(`/api/v1/promises/${slug}`),
 };

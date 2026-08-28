@@ -188,3 +188,13 @@ export type PromiseLedger = {
   recentSlips: PromiseRow[];
   note: string;
 };
+
+export type SyncStatus = {
+  lastSuccessAt: string | null;
+  hoursSinceSuccess: number | null;
+  /** 마지막 성공이 36시간을 넘었나. 하루 한 번 도는 일이라 그 정도면 한 번은 건너뛴 것이다. */
+  stale: boolean;
+  failedSteps: string[];
+  steps: Array<{ step: string; status: string; lastRunAt: string; detail: string | null }>;
+  totals: Record<string, number>;
+};

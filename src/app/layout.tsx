@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Header } from "@/components/header";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
+import { ArchiveStatus } from "@/components/archive-status";
 
 export const metadata: Metadata = {
   // 절대 URL 기준점. 이게 없으면 OG 이미지와 canonical 이 상대경로로 나가 크롤러가 못 읽는다.
@@ -27,6 +28,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   const themeBootstrap = `try{var t=localStorage.getItem("nexplay-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}`;
   return <html lang="ko" data-scroll-behavior="smooth" suppressHydrationWarning>
     <head><script dangerouslySetInnerHTML={{ __html: themeBootstrap }}/></head>
-    <body><Header/>{children}<footer className="site-footer"><div className="shell"><span className="footer-brand">NEX<span>PLAY</span></span><p>다음에 플레이할 게임을 발견하는 가장 빠른 방법.</p><span>© 2026 RUBI-ON</span></div></footer></body>
+    <body><Header/>{children}<footer className="site-footer"><div className="shell"><span className="footer-brand">NEX<span>PLAY</span></span><p>다음에 플레이할 게임을 발견하는 가장 빠른 방법.</p><ArchiveStatus/><span>© 2026 RUBI-ON</span></div></footer></body>
   </html>;
 }
