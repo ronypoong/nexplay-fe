@@ -259,3 +259,12 @@ export type EventDetail = {
   /** 이 발표에서 뽑은 약속. */
   promises: PromiseRow[];
 };
+
+/** 게임 상세가 한 번에 받는 묶음. 조각마다 왕복하지 않기 위한 것. */
+export type GameDetailBundle = {
+  game: Game;
+  metadata: GameMetadata;
+  events: GameEvent[];
+  promises: PromiseRow[];
+  related: GameCard[];
+};

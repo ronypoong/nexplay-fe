@@ -1,4 +1,4 @@
-import type { EventDetail, SyncStatus, EditorPick, Feed, Game, GameCard, GameEvent, GameMetadata, GameRelease, Goty, KoreanRadar, PromiseLedger, PromiseRow, Trends } from "./types";
+import type { GameDetailBundle, EventDetail, SyncStatus, EditorPick, Feed, Game, GameCard, GameEvent, GameMetadata, GameRelease, Goty, KoreanRadar, PromiseLedger, PromiseRow, Trends } from "./types";
 
 const API_BASE = process.env.NEXT_PUBLIC_NEXPLAY_API_BASE_URL;
 
@@ -36,6 +36,7 @@ export const api = {
     request<GameCard[]>(genre ? `/api/v1/games?genre=${encodeURIComponent(genre)}` : "/api/v1/games"),
   relatedGames: (slug: string) => request<GameCard[]>(`/api/v1/games/${slug}/related?limit=3`),
   game: (slug: string) => request<Game>(`/api/v1/games/${slug}`),
+  gameFull: (slug: string) => request<GameDetailBundle>(`/api/v1/games/${slug}/full`),
   gameMetadata: (slug: string) => request<GameMetadata>(`/api/v1/games/${slug}/metadata`),
   gameEvents: (slug: string) => request<GameEvent[]>(`/api/v1/games/${slug}/events`),
   releases: (from: string, to: string) => request<GameRelease[]>(`/api/v1/releases?from=${from}&to=${to}`),

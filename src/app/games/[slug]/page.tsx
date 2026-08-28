@@ -14,6 +14,16 @@ import { ArrowIcon, PlayIcon } from "@/components/icons";
 import { AnticipateButton } from "@/components/anticipate-button";
 import { ViewBeacon } from "@/components/view-beacon";
 
+/** 상세 화면이 쓰는 것을 한 번에 받는다. 없는 slug 는 500 이 아니라 404 여야 한다. */
+async function loadFull(slug: string) {
+  try {
+    return await api.gameFull(slug);
+  } catch (error) {
+    if (error instanceof NexplayNotFoundError) notFound();
+    throw error;
+  }
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   try {
@@ -55,23 +65,13 @@ const PROMISE_CLAIM: Record<string, string> = { RELEASE_DATE: "출시 시점", K
 
 export default async function GamePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  let game: Awaited<ReturnType<typeof api.game>>;
-  try {
-    game = await api.game(slug);
-  } catch (error) {
-    // 없는 slug 는 500 이 아니라 404 여야 한다. not-found.tsx 가 이미 있다.
-    if (error instanceof NexplayNotFoundError) notFound();
-    throw error;
-  }
+  /*
+   * 한 번에 받는다. 예전에는 게임·소식·부가정보·약속·관련게임을 따로 불러 서버를
+   * 여섯 번 찔렀다. 조각마다 왕복이 붙으니 그것만으로 1초가 넘었다.
+   */
+  const { game, metadata, events, promises, related } = await loadFull(slug);
   // 관련작은 서버가 장르 겹침으로 골라 3개만 보낸다.
   // 예전에는 장르로 필터링해도 카탈로그 수백 개를 받아 3개만 쓰고 버렸다.
-  const [events, metadata, related, promises] = await Promise.all([
-    api.gameEvents(slug),
-    api.gameMetadata(slug),
-    api.relatedGames(slug).catch(() => []),
-    // 약속 이력이 없는 게임이 대부분이다. 없다고 해서 상세 화면이 죽으면 안 된다.
-    api.gamePromises(slug).catch(() => []),
-  ]);
   const statusLabel = game.status === "Available" ? "출시됨" : game.status === "Upcoming" ? "출시 예정" : "일정 미정";
   const trailer = metadata.media.find((item) => item.official && (item.type === "TRAILER" || item.type === "GAMEPLAY"));
   const screenshots = metadata.media.filter((item) => item.type === "SCREENSHOT").slice(0, 6);
