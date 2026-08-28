@@ -1,4 +1,4 @@
-import type { EditorPick, Game, GameEvent, GameMetadata, GameRelease, KoreanRadar, Trends } from "./types";
+import type { EditorPick, Feed, Game, GameCard, GameEvent, GameMetadata, GameRelease, KoreanRadar, Trends } from "./types";
 
 const API_BASE = process.env.NEXT_PUBLIC_NEXPLAY_API_BASE_URL;
 
@@ -19,9 +19,10 @@ async function request<T>(path: string): Promise<T> {
 }
 
 export const api = {
-  feed: () => request<{ games: Game[]; events: GameEvent[] }>("/api/v1/feed"),
+  feed: () => request<Feed>("/api/v1/feed"),
   games: (genre?: string) =>
-    request<Game[]>(genre ? `/api/v1/games?genre=${encodeURIComponent(genre)}` : "/api/v1/games"),
+    request<GameCard[]>(genre ? `/api/v1/games?genre=${encodeURIComponent(genre)}` : "/api/v1/games"),
+  relatedGames: (slug: string) => request<GameCard[]>(`/api/v1/games/${slug}/related?limit=3`),
   game: (slug: string) => request<Game>(`/api/v1/games/${slug}`),
   gameMetadata: (slug: string) => request<GameMetadata>(`/api/v1/games/${slug}/metadata`),
   gameEvents: (slug: string) => request<GameEvent[]>(`/api/v1/games/${slug}/events`),

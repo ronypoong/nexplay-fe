@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { Game } from "@/lib/types";
+import type { GameCard as GameCardData } from "@/lib/types";
 import { GameCard } from "./game-card";
 
-export function TrendingCarousel({ games }: { games: Game[] }) {
+export function TrendingCarousel({ games }: { games: GameCardData[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [canGoPrevious, setCanGoPrevious] = useState(false);
   const [canGoNext, setCanGoNext] = useState(games.length > 4);

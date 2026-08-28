@@ -1,12 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { Game, Platform } from "@/lib/types";
+import type { GameCard as GameCardData, Platform } from "@/lib/types";
 import { GameCard } from "./game-card";
 
 const platforms: Array<"전체" | Platform> = ["전체", "PC", "PS5", "Xbox", "Switch 2", "미정"];
 
-export function DiscoverGrid({ games }: { games: Game[] }) {
+export function DiscoverGrid({ games }: { games: GameCardData[] }) {
   const [platform, setPlatform] = useState<(typeof platforms)[number]>("전체");
   const [genre, setGenre] = useState("전체 장르");
   const [mode, setMode] = useState("전체 모드");

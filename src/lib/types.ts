@@ -60,9 +60,29 @@ export type GameEvent = {
   sourceCount: number;
 };
 
+/** 목록용. 상세에서만 쓰는 description 이 없다. */
+export type GameCard = Omit<Game, "description" | "officialUrl" | "wikidataId" | "catalogSource" | "imageSource">;
+
+export type FeedStats = {
+  totalGames: number;
+  currentYearGames: number;
+  totalEvents: number;
+  upcomingGames: number;
+  updateEvents: number;
+  expansionEvents: number;
+};
+
+export type Feed = {
+  games: GameCard[];
+  upcoming: GameCard[];
+  hiddenGems: GameCard[];
+  events: GameEvent[];
+  stats: FeedStats;
+};
+
 export type GameRelease = {
   id: string;
-  game: Game;
+  game: GameCard;
   platform: Platform;
   releaseDate: string;
   status: "CONFIRMED" | "EXPECTED" | "DELAYED" | "RELEASED";

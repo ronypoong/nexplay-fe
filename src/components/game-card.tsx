@@ -1,9 +1,9 @@
 import Link from "next/link";
-import type { Game } from "@/lib/types";
+import type { GameCard as GameCardData } from "@/lib/types";
 import { GameArt } from "./game-art";
 import { BookmarkButton } from "./bookmark-button";
 
-export function GameCard({ game, rank }: { game: Game; rank?: number }) {
+export function GameCard({ game, rank }: { game: GameCardData; rank?: number }) {
   return <article className="game-card">
     <Link href={`/games/${game.slug}`} className="game-card-art" aria-label={`${game.title} 상세 보기`}><GameArt game={game}/>{rank && <span className="rank">{rank}</span>}</Link>
     <div className="game-card-body">

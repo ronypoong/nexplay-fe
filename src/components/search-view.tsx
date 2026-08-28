@@ -1,11 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { Game } from "@/lib/types";
+import type { GameCard as GameCardData } from "@/lib/types";
 import { GameCard } from "./game-card";
 import { SearchIcon } from "./icons";
 
-export function SearchView({ games }: { games: Game[] }) {
+export function SearchView({ games }: { games: GameCardData[] }) {
   const [query, setQuery] = useState("");
   const results = useMemo(() => {
     const normalized = query.trim().toLowerCase();

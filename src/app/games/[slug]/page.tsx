@@ -36,14 +36,13 @@ export default async function GamePage({ params }: { params: Promise<{ slug: str
     if (error instanceof NexplayNotFoundError) notFound();
     throw error;
   }
-  // 예전에는 관련작 3개를 뽑으려고 전체 카탈로그를 받아 상위 3개를 그대로 썼다.
-  // 장르를 서버로 넘겨 실제로 "관련" 있는 게임만 받는다.
-  const [events, metadata, sameGenre] = await Promise.all([
+  // 관련작은 서버가 장르 겹침으로 골라 3개만 보낸다.
+  // 예전에는 장르로 필터링해도 카탈로그 수백 개를 받아 3개만 쓰고 버렸다.
+  const [events, metadata, related] = await Promise.all([
     api.gameEvents(slug),
     api.gameMetadata(slug),
-    api.games(game.genres[0]),
+    api.relatedGames(slug).catch(() => []),
   ]);
-  const related = sameGenre.filter((item) => item.slug !== slug).slice(0, 3);
   const statusLabel = game.status === "Available" ? "출시됨" : game.status === "Upcoming" ? "출시 예정" : "일정 미정";
   const trailer = metadata.media.find((item) => item.official && (item.type === "TRAILER" || item.type === "GAMEPLAY"));
   const screenshots = metadata.media.filter((item) => item.type === "SCREENSHOT").slice(0, 6);
