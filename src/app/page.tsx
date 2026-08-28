@@ -6,12 +6,16 @@ import { EventCard } from "@/components/event-card";
 import { SectionHeading } from "@/components/section-heading";
 import { ArrowIcon, CalendarIcon, SparkIcon } from "@/components/icons";
 import { TrendingCarousel } from "@/components/trending-carousel";
+import { EditorPicks } from "@/components/editor-picks";
 import type { GameEvent } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const { games, events } = await api.feed();
+  const [{ games, events }, picks] = await Promise.all([
+    api.feed(),
+    api.editorPicks().catch(() => []),
+  ]);
   const today = new Date();
   const todayLabel = today.toLocaleDateString("ko-KR", { month: "long", day: "numeric", timeZone: "Asia/Seoul" });
   const calendarParts = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul", year: "numeric", month: "2-digit" }).formatToParts(today);
@@ -58,6 +62,8 @@ export default async function Home() {
     <section id="trending" className="content-section shell"><SectionHeading eyebrow="인기 급상승" title="지금 가장 주목받는 게임" href="/discover"/><TrendingCarousel games={games}/></section>
 
     {primaryEvent && <section id="announced" className="dark-band"><div className="shell"><div className="magazine-heading"><SectionHeading eyebrow="NEXPLAY 매거진" title="놓치면 안 될 게임 소식" href="/discover" action="전체 소식 보기"/><div className="magazine-index"><span><strong>{events.length}</strong> 최신 소식</span><span><strong>{updateCount}</strong> 패치·업데이트</span><span><strong>{expansionCount}</strong> 확장팩·DLC</span></div></div><div className="event-grid"><EventCard event={primaryEvent} game={games.find((game) => game.slug === primaryEvent.gameSlug) ?? hero} feature/><div className="event-stack">{supportingEvents.map((event) => <EventCard key={event.id} event={event} game={games.find((game) => game.slug === event.gameSlug) ?? hero}/>)}</div></div></div></section>}
+
+    <EditorPicks picks={picks}/>
 
     <section id="upcoming" className="content-section shell"><SectionHeading eyebrow="출시 예정" title="곧 만날 수 있는 게임" href={calendarHref} action="캘린더 보기"/><div className="upcoming-list">{upcoming.map((game) => { const date = new Date(`${game.releaseDate}T00:00:00`); const yearOnly = game.releaseDate.endsWith("-01-01"); return <Link key={game.id} className="upcoming-item" href={`/games/${game.slug}`}><span className={yearOnly ? "date-block year" : "date-block"}>{yearOnly ? <><small>연내</small><strong>{date.getFullYear()}</strong></> : <><small>{date.getMonth() + 1}월</small><strong>{date.getDate()}</strong></>}</span><GameArt game={game}/><span className="upcoming-copy"><strong>{game.title}</strong><small>{game.genres.join(" · ")}</small></span><span className="platforms">{game.platforms.slice(0, 2).join(" · ")}</span><ArrowIcon/></Link>; })}</div></section>
 

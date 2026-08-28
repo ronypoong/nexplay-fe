@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { BookmarkIcon, CalendarIcon, DiscoverIcon, HomeIcon, MenuIcon, NewsIcon, SearchIcon, TrendingIcon } from "./icons";
+import { BookmarkIcon, CalendarIcon, DiscoverIcon, HomeIcon, MenuIcon, NewsIcon, SearchIcon, SparkIcon, TrendingIcon } from "./icons";
 
-const homeSections = ["trending", "announced", "upcoming"];
+const homeSections = ["trending", "announced", "editor-picks", "upcoming"];
 
 function currentCalendarHref() {
   const parts = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul", year: "numeric", month: "2-digit" }).formatToParts(new Date());
@@ -21,7 +21,9 @@ export function Header() {
     { href: "/", label: "홈", icon: <HomeIcon size={16}/> },
     { href: "/#trending", label: "인기 급상승", icon: <TrendingIcon size={16}/> },
     { href: "/#announced", label: "새 소식", icon: <NewsIcon size={16}/> },
+    { href: "/#editor-picks", label: "주인장 픽", icon: <SparkIcon size={16}/> },
     { href: "/#upcoming", label: "출시 예정", icon: <CalendarIcon size={16}/> },
+    { href: "/korean", label: "한국어 레이더", icon: <SparkIcon size={16}/> },
     { href: "/discover", label: "게임 탐색", icon: <DiscoverIcon size={16}/> },
     { href: currentCalendarHref(), label: "출시 캘린더", icon: <CalendarIcon size={16}/> },
   ];

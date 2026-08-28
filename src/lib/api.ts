@@ -1,4 +1,4 @@
-import type { Game, GameEvent, GameMetadata, GameRelease } from "./types";
+import type { EditorPick, Game, GameEvent, GameMetadata, GameRelease, KoreanRadar } from "./types";
 
 const API_BASE = process.env.NEXT_PUBLIC_NEXPLAY_API_BASE_URL;
 
@@ -26,4 +26,6 @@ export const api = {
   gameMetadata: (slug: string) => request<GameMetadata>(`/api/v1/games/${slug}/metadata`),
   gameEvents: (slug: string) => request<GameEvent[]>(`/api/v1/games/${slug}/events`),
   releases: (from: string, to: string) => request<GameRelease[]>(`/api/v1/releases?from=${from}&to=${to}`),
+  editorPicks: () => request<EditorPick[]>("/api/v1/editor-picks"),
+  koreanRadar: () => request<KoreanRadar>("/api/v1/korean"),
 };

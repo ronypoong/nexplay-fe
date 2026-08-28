@@ -68,3 +68,26 @@ export type GameRelease = {
   status: "CONFIRMED" | "EXPECTED" | "DELAYED" | "RELEASED";
   region: string;
 };
+
+export type EditorPick = {
+  game: Game;
+  note: string;
+  headline?: string | null;
+  pickedAt: string;
+};
+
+export type KoreanForecast = {
+  slug: string;
+  title: string;
+  publisher: string;
+  releaseLabel: string;
+  probabilityPercent: number;
+  basis: string;
+};
+
+export type KoreanRadar = {
+  coverage: { totalGames: number; checked: number; supported: number; fullVoice: number; unchecked: number };
+  publishers: Array<{ publisher: string; checked: number; supported: number; fullVoice: number; ratePercent: number }>;
+  forecasts: KoreanForecast[];
+  fullVoiceGames: KoreanForecast[];
+};
