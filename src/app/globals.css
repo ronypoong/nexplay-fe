@@ -663,15 +663,4 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 .anticipate-button:not(.on) b { background:var(--surface-3); color:var(--text); }
 .anticipate-note { color:var(--muted); font-size:12.5px; }
 
-/* 기대 이유 한 줄 — 댓글창이 아니라 기록이다 */
-.anticipate-row { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
-.text-button.small,.primary-button.small { height:36px; min-height:36px; padding:0 14px; font-size:13px; gap:6px; }
-.anticipate-write { display:flex; flex-direction:column; gap:9px; margin-top:10px; max-width:460px; }
-.anticipate-write input { height:42px; padding:0 13px; border-radius:4px; border:1px solid var(--border-strong); background:var(--surface); color:var(--text); font-size:14px; }
-.anticipate-write input:focus-visible { outline:2px solid var(--lime); outline-offset:1px; }
-.anticipate-write-actions { display:flex; align-items:center; gap:9px; }
-.anticipate-count { margin-right:auto; color:var(--muted); font-size:12.5px; }
-.anticipate-reasons { list-style:none; margin:16px 0 0; padding:0; display:flex; flex-direction:column; gap:9px; max-width:560px; }
-.anticipate-reasons li { padding:11px 14px; border-left:2px solid var(--border-strong); background:var(--surface-2); border-radius:0 4px 4px 0; }
-.anticipate-reasons p { margin:0; font-size:14px; color:var(--text); line-height:1.6; }
-.anticipate-reasons small { display:block; margin-top:5px; color:var(--muted-2); font-size:12px; }
+/* 기대 이유 입력은 화면에서 내렸다. 서버는 계속 받을 수 있어 다시 켤 때 여기만 되살리면 된다. */
