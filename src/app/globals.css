@@ -631,3 +631,6 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 /* 아카이브 갱신 상태 — 언제 모았는지가 신뢰의 근거다 */
 .archive-status { display:flex; flex-wrap:wrap; gap:6px 14px; margin:0; color:var(--muted); font-size:12.5px; }
 .archive-status .archive-stale { color:var(--orange); font-weight:700; }
+
+/* 오류 화면의 버튼 줄 */
+.error-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:8px; }
