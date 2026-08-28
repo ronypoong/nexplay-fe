@@ -40,7 +40,7 @@ export function EventCard({ event, game, feature = false }: { event: GameEvent; 
         {event.discountPercent != null && event.discountPercent > 0 && <span className="event-flag sale">{event.discountPercent}% 할인</span>}
         {event.marketingNoise && <span className="event-flag muted-flag">홍보성</span>}
       </div>
-      <Link href={`/news/${event.id}`}><h3>{event.title}</h3></Link>
+      <Link href={`/news/${event.id}`} title={event.title}><h3>{event.title}</h3></Link>
       <p>{body}</p>
       <div className="event-footer">
         <Link href={`/games/${slug}`} className="event-game-link"><strong>{art?.title ?? ""}</strong></Link>

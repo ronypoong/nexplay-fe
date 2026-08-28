@@ -785,3 +785,26 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 /* 펼친 목록. 브라우저마다 반영 정도가 다르지만, 되는 곳에서는 배경이 맞는다. */
 .select-shell > select option { background:var(--surface); color:var(--text); }
 @media (prefers-reduced-motion: reduce) { .select-shell::after { transition:none; } }
+
+/* ── 긴 제목 ────────────────────────────────────────────────
+   117자짜리 제목이 있고 465개 중 54개가 30자를 넘는다. 그냥 두면 카드마다
+   제목 줄 수가 달라져 격자가 어긋나고, 긴 것은 카드를 통째로 밀어낸다.
+
+   두 줄에서 자르고, 한 줄짜리도 두 줄 자리를 잡아 둔다. 자리를 안 잡으면
+   같은 줄의 카드들이 서로 다른 높이로 시작한다. */
+.game-card h3,
+.event-copy h3,
+.silence-copy strong,
+.change-copy strong,
+.rise-copy strong,
+.promise-card header strong {
+  display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; line-clamp:2;
+  overflow:hidden;
+  /* 띄어쓰기 없는 긴 낱말이 카드를 뚫고 나가지 않게 한다. */
+  overflow-wrap:anywhere;
+}
+/* 격자로 늘어놓는 카드만 자리를 미리 잡는다. 목록형은 높이가 달라도 어긋나지 않는다. */
+.game-card h3 { min-height:calc(2 * 1.25em); }
+.event-copy h3 { min-height:calc(2 * 1.25em); }
+/* 개발사 이름은 한 줄이면 충분하다. 두 줄로 넘어가면 제목처럼 보인다. */
+.game-card p { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
