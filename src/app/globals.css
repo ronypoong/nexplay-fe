@@ -146,6 +146,7 @@ button { color:inherit; }
 .date-block { display:flex; flex-direction:column; align-items:center; border-right:1px solid #dddeda; }
 .date-block small { color:#92958d; font-size:9px; font-weight:800; }
 .date-block strong { font:700 22px "Manrope"; }
+.date-block.year strong { font-size:15px; letter-spacing:-.3px; }
 .upcoming-item .game-art { width:84px; min-height:58px; height:58px; border-radius:3px; }
 .upcoming-item .art-title { display:none; }.upcoming-item .art-symbol { font-size:30px; }
 .upcoming-copy { display:flex; flex-direction:column; }
@@ -277,7 +278,7 @@ button { color:inherit; }
   .content-section { padding-block:64px; }.section-heading { align-items:center; }.section-heading h2,.hidden-gems h2 { font-size:23px; }.section-heading>a { font-size:0; }.section-heading>a svg { width:20px; }
   .card-grid,.card-grid.three { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }.game-card-art { height:auto; }.game-card-body { padding:13px; }.game-card h3 { font-size:13px; }.game-card .art-title { left:13px; bottom:13px; }.game-card .art-title strong { font-size:13px; }.game-card .art-title small { display:none; }.game-card .bookmark-button { display:none; }.card-meta { flex-direction:column; gap:5px; }
   .dark-band { padding-block:62px; }.magazine-index { width:100%; padding-bottom:4px; }.event-stack { grid-template-columns:1fr; }.event-card { grid-template-columns:110px 1fr; min-height:150px; }.event-copy { padding:16px; }.event-copy h3 { font-size:15px; }.event-copy>p { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }.event-footer { display:none; }.featured-event .event-copy { padding:180px 20px 22px; }.event-card.featured-event { min-height:350px; }.score-pair { grid-template-columns:1fr; }.score-pair>span { padding:8px; }
-  .upcoming-item { grid-template-columns:50px 60px 1fr 18px; gap:10px; min-height:79px; }.upcoming-item .game-art { width:60px; height:48px; min-height:48px; }.upcoming-item .platforms { display:none; }.date-block strong { font-size:18px; }
+  .upcoming-item { grid-template-columns:50px 60px 1fr 18px; gap:10px; min-height:79px; }.upcoming-item .game-art { width:60px; height:48px; min-height:48px; }.upcoming-item .platforms { display:none; }.date-block strong { font-size:18px; }.date-block.year strong { font-size:13px; }
   .hidden-gems { width:100%; border-radius:0; margin-bottom:0; padding:50px 16px; }.gem-cards { gap:10px; }.gem-cards .game-card-art { height:auto; }
   .site-footer .shell { align-items:flex-start; flex-direction:column; gap:15px; }.site-footer p { margin:0; }
   .page-shell { padding-block:47px 80px; }.page-hero { margin-bottom:35px; }.page-hero h1 { font-size:41px; letter-spacing:-2.5px; }.filter-bar { align-items:flex-start; flex-direction:column; gap:13px; }.chip-group { flex-wrap:nowrap; max-width:100%; overflow-x:auto; padding-bottom:4px; }.chip-group button { white-space:nowrap; }.search-field { height:60px; }.search-field input { min-width:0; font-size:18px; }.popular-searches { overflow-x:auto; }.popular-searches button { white-space:nowrap; }
