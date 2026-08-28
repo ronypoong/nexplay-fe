@@ -12,6 +12,13 @@ export function EventCard({ event, game, feature = false }: { event: GameEvent; 
    */
   const art = event.game ?? game;
   const slug = art?.slug ?? event.gameSlug;
+  /*
+   * 제목과 그림은 소식 상세로 간다. 상세를 만들어 두고 거기로 가는 길을 아무
+   * 데도 걸지 않아서, 화면은 있는데 닿을 수가 없었다.
+   *
+   * 게임으로 가는 길은 아래 게임 이름에 둔다. 소식을 보다가 그 게임이 궁금해지는
+   * 것과, 소식 자체를 자세히 보는 것은 다른 일이다.
+   */
 
   /*
    * 공식 발표는 대부분 영어나 일본어로 온다. 제목만 보여 주면 한국 사용자에게는
@@ -21,7 +28,7 @@ export function EventCard({ event, game, feature = false }: { event: GameEvent; 
   const body = event.summaryKo ?? event.summary;
 
   return <article className={`event-card ${feature ? "featured-event" : ""}`}>
-    <Link href={`/games/${slug}`} className="event-art" aria-label={`${art?.title ?? ""} 상세 보기`}>
+    <Link href={`/news/${event.id}`} className="event-art" aria-label={`${event.title} 자세히 보기`}>
       {art && <GameArt game={art}/>}
       {["TRAILER", "GAMEPLAY"].includes(event.type) && <span className="play-badge"><PlayIcon fill="currentColor"/></span>}
     </Link>
@@ -33,10 +40,10 @@ export function EventCard({ event, game, feature = false }: { event: GameEvent; 
         {event.discountPercent != null && event.discountPercent > 0 && <span className="event-flag sale">{event.discountPercent}% 할인</span>}
         {event.marketingNoise && <span className="event-flag muted-flag">홍보성</span>}
       </div>
-      <Link href={`/games/${slug}`}><h3>{event.title}</h3></Link>
+      <Link href={`/news/${event.id}`}><h3>{event.title}</h3></Link>
       <p>{body}</p>
       <div className="event-footer">
-        <strong>{art?.title ?? ""}</strong>
+        <Link href={`/games/${slug}`} className="event-game-link"><strong>{art?.title ?? ""}</strong></Link>
         <span>{event.dateLabel} · 출처 {event.sourceCount}개{event.summaryKo && " · AI 요약"}</span>
       </div>
       {/* 남의 발표를 옮긴 것이므로 원문으로 가는 길을 반드시 남긴다. */}

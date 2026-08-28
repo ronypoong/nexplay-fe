@@ -689,3 +689,7 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 .fact-grid strong { font:700 17px/1.2 "Manrope",sans-serif; color:var(--text-strong); }
 .fact-reason { margin:16px 0 0; padding:14px 18px; border-left:3px solid var(--border-strong); background:var(--surface-sunken); color:var(--text); font-size:14px; line-height:1.7; }
 .fact-reason cite { display:block; margin-top:8px; font-style:normal; color:var(--muted-2); font-size:12px; }
+
+/* 소식 카드에서 게임으로 가는 길 */
+.event-game-link { color:inherit; }
+.event-game-link:hover strong { text-decoration:underline; }
