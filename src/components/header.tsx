@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { BookmarkIcon, CalendarIcon, DiscoverIcon, HomeIcon, MenuIcon, NewsIcon, SearchIcon, SparkIcon, TrendingIcon } from "./icons";
+import { CalendarIcon, DiscoverIcon, HomeIcon, MenuIcon, NewsIcon, SearchIcon, SparkIcon, TrendingIcon } from "./icons";
 
 const homeSections = ["trending", "announced", "editor-picks", "upcoming"];
 
@@ -58,8 +58,6 @@ export function Header() {
       </nav>
       <div className="header-actions">
         <Link className="sidebar-search" href="/search"><SearchIcon size={17}/><span>게임과 회사를 검색</span></Link>
-        <button className="icon-button desktop-only" aria-label="관심 게임"><BookmarkIcon /></button>
-        <button className="avatar" aria-label="프로필">HS</button>
         <button className="icon-button mobile-only" aria-label="메뉴"><MenuIcon /></button>
       </div>
     </div>
