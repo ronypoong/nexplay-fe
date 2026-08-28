@@ -742,3 +742,8 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 .console-log { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:5px; max-height:280px; overflow-y:auto; font-size:12.5px; color:var(--muted); font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
 .console-log li { padding:6px 9px; border-radius:3px; background:var(--surface-sunken); word-break:break-all; }
 @media (max-width:760px) { .console-missing > div { grid-template-columns:1fr; } }
+
+/* 더 보기 */
+.more-row { display:flex; justify-content:center; margin-top:28px; }
+.more-row .secondary-button { gap:8px; }
+.more-row small { color:var(--muted); font-weight:600; }
