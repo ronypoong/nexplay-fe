@@ -121,3 +121,26 @@ export type Trends = {
   recentChanges: Array<{ slug: string; title: string; platform: string; previousDate: string; newDate: string; changeType: string; shiftDays: number; announcedAt: string }>;
   studios: Array<{ studio: string; trackedGames: number; delays: number; averageShiftDays: number }>;
 };
+
+export type AwardedGame = {
+  slug: string | null;
+  title: string;
+  awardYear: number;
+  result: "WINNER" | "NOMINEE";
+  coverImageUrl: string | null;
+  sourceUrl: string | null;
+};
+
+export type WatchlistEntry = {
+  slug: string;
+  title: string;
+  releaseLabel: string;
+  coverImageUrl: string | null;
+  reason: string;
+};
+
+export type Goty = {
+  winners: AwardedGame[];
+  nominees: AwardedGame[];
+  watchlist: WatchlistEntry[];
+};

@@ -504,3 +504,16 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 .copy-source { margin:10px 0 0; color:#6d7891; font-size:11.5px; }
 .copy-source a { color:#8fa8d8; text-decoration:underline; text-underline-offset:2px; }
 .copy-source a:hover { color:#c3d3ee; }
+
+/* ── GOTY 아카이브 ─────────────────────────────────────────── */
+.goty-years { display:grid; grid-template-columns:repeat(auto-fill,minmax(268px,1fr)); gap:14px; }
+.goty-year { padding:20px; background:#0d1524; border:1px solid #202c42; border-radius:6px; }
+.goty-year h3 { margin:0 0 12px; font:700 22px/1 "Manrope",sans-serif; color:#a58af0; }
+.goty-winner { display:flex; align-items:center; gap:9px; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid #1a2337; }
+.goty-winner a { display:flex; align-items:center; gap:6px; }
+.goty-winner strong { font-size:14.5px; }
+.goty-badge { padding:3px 9px; border-radius:3px; background:linear-gradient(90deg,#7c4fe5,#4c8cff); color:#fff; font-size:9.5px; font-weight:800; flex:none; }
+.goty-nominees { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px; }
+.goty-nominees li { color:#8994a9; font-size:12.5px; }
+.goty-nominees a:hover { color:#c3d3ee; text-decoration:underline; text-underline-offset:2px; }
+.goty-source { margin-top:22px; }

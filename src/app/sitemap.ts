@@ -23,6 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/discover`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
     { url: `${SITE_URL}/korean`, lastModified: now, changeFrequency: "daily", priority: 0.8 },
     { url: `${SITE_URL}/trends`, lastModified: now, changeFrequency: "daily", priority: 0.7 },
+    { url: `${SITE_URL}/goty`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     ...calendarMonths().map((month) => ({
       url: `${SITE_URL}/releases/${month}`,
       lastModified: now,
