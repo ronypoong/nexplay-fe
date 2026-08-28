@@ -500,3 +500,8 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
   .rise-score { display:none; }
   .rise-row>svg { display:none; }
 }
+
+/* 소개문 출처 표기 — 위키백과 본문은 CC BY-SA 라 링크가 필수다. */
+.copy-source { margin:10px 0 0; color:#6d7891; font-size:11.5px; }
+.copy-source a { color:#8fa8d8; text-decoration:underline; text-underline-offset:2px; }
+.copy-source a:hover { color:#c3d3ee; }
