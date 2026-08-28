@@ -24,7 +24,7 @@ function Collecting({ title, days, readyAt, unit }: { title: string; days: numbe
 }
 
 export default async function TrendsPage() {
-  const { momentumMaturity, delayMaturity, risingGames, recentChanges, studios } = await api.trends();
+  const { momentumMaturity, delayMaturity, risingGames, recentChanges, studios, silentGames } = await api.trends();
 
   return <main className="page-shell shell">
     <div className="page-hero compact">
@@ -46,6 +46,30 @@ export default async function TrendsPage() {
             </Link>)}
           </div>
         : <Collecting title="아직 추세를 말할 만큼 쌓이지 않았어요" days={momentumMaturity.days} readyAt={momentumMaturity.readyAt} unit="일치"/>}
+    </section>
+
+    <section className="content-section">
+      <SectionHeading eyebrow="관측" title="조용해진 기대작"/>
+      <p className="section-note">
+        꾸준히 소식을 올리던 미출시작이 평소보다 오래 말이 없는 경우입니다.
+        연기될 것이라는 뜻은 아닙니다 — 개발을 접은 팀도, 그냥 조용한 팀도 같은 모습입니다.
+        관측한 사실만 적으니 판단은 직접 하세요.
+      </p>
+      {silentGames.length > 0
+        ? <div className="silence-list">
+            {silentGames.map((g) => <Link className="silence-row" href={`/games/${g.slug}`} key={g.slug}>
+              <span className="silence-copy">
+                <strong>{g.title}</strong>
+                <small>{g.releaseLabel} · 마지막 소식 {g.lastNewsAt}</small>
+              </span>
+              <span className="silence-rhythm">
+                평소 <b>{g.typicalGapDays}일</b>마다
+                <small>소식 {g.newsCount}건 기준</small>
+              </span>
+              <span className="silence-days"><b>{g.silentDays}</b>일째</span>
+            </Link>)}
+          </div>
+        : <div className="empty-panel"><strong>지금은 눈에 띄게 조용해진 게임이 없어요.</strong></div>}
     </section>
 
     <section className="content-section">

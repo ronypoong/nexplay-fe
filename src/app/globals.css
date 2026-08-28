@@ -634,3 +634,18 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 
 /* 오류 화면의 버튼 줄 */
 .error-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:8px; }
+
+/* 조용해진 기대작 — 평소 리듬과 침묵 길이를 나란히 */
+.silence-list { display:flex; flex-direction:column; border:1px solid var(--border); border-radius:6px; overflow:hidden; }
+.silence-row { display:grid; grid-template-columns:1fr 132px 84px; align-items:center; gap:16px; padding:15px 18px; background:var(--surface); border-bottom:1px solid var(--divider); color:var(--text); }
+.silence-row:last-child { border-bottom:0; }
+.silence-row:hover { background:var(--surface-2); }
+.silence-copy { display:flex; flex-direction:column; gap:4px; min-width:0; }
+.silence-copy strong { font-size:15px; color:var(--text-strong); }
+.silence-copy small { color:var(--muted); font-size:12.5px; }
+.silence-rhythm { display:flex; flex-direction:column; gap:3px; text-align:right; color:var(--muted); font-size:12.5px; }
+.silence-rhythm b { color:var(--text); font-weight:700; }
+.silence-rhythm small { color:var(--muted-2); font-size:11.5px; }
+.silence-days { text-align:right; color:var(--muted); font-size:12.5px; }
+.silence-days b { display:block; color:var(--orange); font:800 20px/1.1 "Manrope",sans-serif; }
+@media (max-width:720px) { .silence-row { grid-template-columns:1fr 74px; } .silence-rhythm { display:none; } }

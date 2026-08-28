@@ -127,12 +127,24 @@ export type KoreanRadar = {
 
 export type DataMaturity = { days: number; readyAt: number; ready: boolean };
 
+export type SilenceEntry = {
+  slug: string;
+  title: string;
+  releaseLabel: string;
+  /** 평소 간격을 낸 근거가 된 소식 수. 적을수록 흔들리므로 화면에 함께 보인다. */
+  newsCount: number;
+  typicalGapDays: number;
+  silentDays: number;
+  lastNewsAt: string;
+};
+
 export type Trends = {
   momentumMaturity: DataMaturity;
   delayMaturity: DataMaturity;
   risingGames: Array<{ slug: string; title: string; releaseLabel: string; current: number; previous: number; delta: number }>;
   recentChanges: Array<{ slug: string; title: string; platform: string; previousDate: string; newDate: string; changeType: string; shiftDays: number; announcedAt: string }>;
   studios: Array<{ studio: string; trackedGames: number; delays: number; averageShiftDays: number }>;
+  silentGames: SilenceEntry[];
 };
 
 export type AwardedGame = {
