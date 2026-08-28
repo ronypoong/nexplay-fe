@@ -15,6 +15,19 @@ function readToken() {
 
 type Job = { label: string; path: string; limit?: number; note?: string };
 
+type DailyCost = {
+  date: string; calls: number; totalTokens: number;
+  /** 단가를 모르는 모델이 섞인 날은 null. 모르는 것을 0 으로 적으면 거짓말이 된다. */
+  estimatedUsd: number | null;
+  models: string[];
+};
+type CostSummary = {
+  days: DailyCost[];
+  last30DaysUsd: number | null;
+  projectedMonthlyUsd: number | null;
+  note: string;
+};
+
 const JOBS: Array<{ group: string; items: Job[] }> = [
   {
     group: "매일 도는 것 (직접 돌리기)",
@@ -50,6 +63,7 @@ export function AdminConsole() {
   const [log, setLog] = useState<string[]>([]);
   const [busy, setBusy] = useState<string | null>(null);
   const [missing, setMissing] = useState<Array<Record<string, unknown>>>([]);
+  const [cost, setCost] = useState<CostSummary | null>(null);
   const [covers, setCovers] = useState<Record<string, string>>({});
 
   useEffect(() => { setToken(readToken()); setReady(true); }, []);
@@ -72,6 +86,12 @@ export function AdminConsole() {
     } catch { /* 상태를 못 읽어도 나머지는 쓸 수 있다 */ }
   }, []);
 
+  const loadCost = useCallback(async () => {
+    if (!token) return;
+    const r = await call("/llm-cost?days=14");
+    if (r.ok) { try { setCost(JSON.parse(r.text)); } catch { /* 형식이 다르면 무시 */ } }
+  }, [call, token]);
+
   const loadMissing = useCallback(async () => {
     if (!token) return;
     const r = await call("/catalog/games/missing-cover");
@@ -80,7 +100,7 @@ export function AdminConsole() {
   }, [call, token]);
 
   useEffect(() => { loadStatus(); }, [loadStatus]);
-  useEffect(() => { if (token) loadMissing(); }, [token, loadMissing]);
+  useEffect(() => { if (token) { loadMissing(); loadCost(); } }, [token, loadMissing, loadCost]);
 
   const saveToken = (value: string) => {
     setToken(value);
@@ -96,6 +116,7 @@ export function AdminConsole() {
       const r = await call(`${job.path}${query}`, { method: "POST" });
       say(`${job.label} → ${r.status} ${r.text.slice(0, 160)}`);
       await loadStatus();
+      if (job.path.includes("extract")) await loadCost();
       if (job.path.includes("steam/extended")) await loadMissing();
     } catch {
       say(`${job.label} → 응답을 받지 못했습니다. 오래 걸리는 작업은 서버에서 계속 돌고 있을 수 있습니다.`);
@@ -175,6 +196,34 @@ export function AdminConsole() {
         </div>)}
       </div>
     </section>)}
+
+    <section className="console-block">
+      <h2>모델 사용 금액</h2>
+      <p className="console-note">{cost?.note ?? "토큰을 세어 단가를 곱한 어림값입니다. 실제 청구는 OpenAI 대시보드가 기준입니다."}</p>
+      {!cost || cost.days.length === 0
+        ? <p className="console-note">아직 기록이 없습니다.</p>
+        : <>
+            <div className="console-stats">
+              <div>
+                <small>한 달 예상</small>
+                <strong>{cost.projectedMonthlyUsd != null ? `$${cost.projectedMonthlyUsd.toFixed(2)}` : "-"}</strong>
+                <span>최근 7일 평균 기준</span>
+              </div>
+              <div>
+                <small>최근 14일 합계</small>
+                <strong>{cost.last30DaysUsd != null ? `$${cost.last30DaysUsd.toFixed(4)}` : "-"}</strong>
+              </div>
+            </div>
+            <div className="console-cost">
+              {cost.days.map((day) => <div key={day.date}>
+                <span>{day.date}</span>
+                <span>{day.calls.toLocaleString()}회</span>
+                <span>{day.totalTokens.toLocaleString()} 토큰</span>
+                <b>{day.estimatedUsd != null ? `$${day.estimatedUsd.toFixed(4)}` : "단가 모름"}</b>
+              </div>)}
+            </div>
+          </>}
+    </section>
 
     <section className="console-block">
       <h2>사진 없는 게임 ({missing.length})</h2>

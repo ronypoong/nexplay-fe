@@ -747,3 +747,10 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 .more-row { display:flex; justify-content:center; margin-top:28px; }
 .more-row .secondary-button { gap:8px; }
 .more-row small { color:var(--muted); font-weight:600; }
+
+/* 콘솔의 일별 모델 금액 */
+.console-cost { display:flex; flex-direction:column; gap:1px; margin-top:14px; background:var(--border); border:1px solid var(--border); border-radius:6px; overflow:hidden; }
+.console-cost > div { display:grid; grid-template-columns:104px 72px 1fr 92px; gap:12px; align-items:center; padding:11px 14px; background:var(--surface); font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums; }
+.console-cost span:nth-child(3) { text-align:right; }
+.console-cost b { text-align:right; color:var(--text-strong); font-weight:700; }
+@media (max-width:640px) { .console-cost > div { grid-template-columns:1fr 1fr; } }
