@@ -174,7 +174,7 @@ button { color:inherit; }
 .chip-group { display:flex; gap:7px; flex-wrap:wrap; }
 .chip-group button,.chip-group a,.popular-searches button,.month-nav button,.month-nav a,.month-nav>span { border:1px solid #dedfd8; background:transparent; border-radius:100px; padding:8px 13px; color:var(--muted); font-size:13px; font-weight:700; cursor:pointer; }
 .chip-group button:hover,.chip-group button.selected,.popular-searches button:hover { border-color:var(--ink); color:var(--on-accent); background:var(--lime-deep); }
-.filter-bar select { border:0; background:transparent; color:var(--muted); font-size:13px; outline:0; }
+/* 셀렉트 모양은 아래 .select-shell 절에서 한 번에 정한다. */
 .select-filters { display:flex; align-items:center; gap:15px; }
 .compact-filter { border:1px solid var(--border-strong); border-radius:100px; padding:8px 12px; color:var(--muted); background:var(--surface); font-size:13px; font-weight:700; cursor:pointer; }
 .compact-filter:hover,.compact-filter.selected { color:var(--text-strong); border-color:#6f79c9; background:var(--border); }
@@ -400,7 +400,7 @@ body>main,body>.site-footer { margin-left:220px; }
 .hidden-gems { background:var(--surface); border:1px solid var(--border); border-left:3px solid #6650c7; border-radius:4px; }.hidden-gems:before { display:none; }.gem-icon { background:var(--lime-deep); color:var(--on-accent); }.gem-intro p { color:var(--muted); }
 
 .site-footer { background:var(--bg); color:var(--muted); border-top:1px solid var(--surface-2); }.footer-brand { color:var(--text-strong); font:800 16.5px "Manrope"; letter-spacing:1px; }
-.page-hero p,.long-copy { color:var(--muted); }.filter-bar { border-color:var(--surface-3); }.chip-group button,.chip-group a,.popular-searches button,.month-nav button,.month-nav a,.month-nav>span { border-color:var(--border-strong); color:var(--muted); background:var(--surface); }.chip-group button:hover,.chip-group button.selected,.chip-group a:hover,.chip-group a.selected,.popular-searches button:hover { color:var(--text-strong); border-color:#6f79c9; background:var(--border); }.month-nav a:hover:not(.current) { color:var(--text-strong); border-color:#52627f; background:var(--surface-2); }.month-nav a.current { color:var(--on-accent); border-color:#7464d8; background:var(--lime-deep); }.filter-bar select { color:var(--text); background:var(--surface-sunken); }.result-meta { color:var(--muted-2); }.result-meta strong { color:var(--text-strong); }.empty-panel { border-color:var(--border-strong); background:var(--surface); }
+.page-hero p,.long-copy { color:var(--muted); }.filter-bar { border-color:var(--surface-3); }.chip-group button,.chip-group a,.popular-searches button,.month-nav button,.month-nav a,.month-nav>span { border-color:var(--border-strong); color:var(--muted); background:var(--surface); }.chip-group button:hover,.chip-group button.selected,.chip-group a:hover,.chip-group a.selected,.popular-searches button:hover { color:var(--text-strong); border-color:#6f79c9; background:var(--border); }.month-nav a:hover:not(.current) { color:var(--text-strong); border-color:#52627f; background:var(--surface-2); }.month-nav a.current { color:var(--on-accent); border-color:#7464d8; background:var(--lime-deep); }.result-meta { color:var(--muted-2); }.result-meta strong { color:var(--text-strong); }.empty-panel { border-color:var(--border-strong); background:var(--surface); }
 .search-field { border-color:var(--lime); }.search-field input { color:var(--text-strong); }.search-field kbd { color:var(--muted); border-color:var(--border); }
 .detail-hero { background:var(--bg); }.detail-backdrop:after { background:linear-gradient(90deg,rgba(5,9,18,.98) 20%,rgba(5,9,18,.58),rgba(5,9,18,.9)); }.detail-tagline,.breadcrumb { color:var(--muted); }.breadcrumb a:hover { color:var(--text-strong); }.detail-facts small { color:var(--muted-2); }.info-panel { background:var(--surface-2); border-color:var(--border-strong); }.info-panel dt { color:var(--muted-2); }.info-panel hr { border-color:var(--divider); }.info-panel a:hover { color:var(--accent-text); }.detail-main .event-card { background:var(--surface-2); color:var(--text-strong); border-color:var(--border-strong); }.detail-main .event-copy>p,.detail-main .event-footer { color:var(--muted-2); }.detail-main .event-footer strong { color:var(--text-strong); }.timeline { border-color:var(--border-strong); }.timeline-dot { border-color:var(--bg); background:var(--lime); }.secondary-button { border-color:#4b5972; }.secondary-button:hover { color:var(--text-strong); border-color:#71809d; background:var(--surface-2); }
 .calendar { border-color:var(--border-strong); background:var(--surface); }.weekdays { background:var(--surface-2); border-color:var(--border-strong); }.calendar-day { border-color:var(--border); }.calendar-day.muted { background:var(--surface-sunken); color:var(--muted); }.calendar-day.today .day-number { background:var(--lime-deep); }.calendar-game { color:var(--text); background:var(--surface-3); transition:background .16s ease,color .16s ease; }.calendar-game:hover { color:var(--text-strong); background:var(--divider); }
@@ -754,3 +754,34 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 .console-cost span:nth-child(3) { text-align:right; }
 .console-cost b { text-align:right; color:var(--text-strong); font-weight:700; }
 @media (max-width:640px) { .console-cost > div { grid-template-columns:1fr 1fr; } }
+
+/* ── 셀렉트 ─────────────────────────────────────────────────
+   기본 셀렉트는 운영체제 모양이 그대로 나와 옆의 칩 버튼과 따로 논다.
+   같은 알약 모양·같은 토큰으로 맞추고 화살표는 직접 그린다.
+   감싼 요소에 그리므로 글자색(currentColor)을 따라가고 테마도 같이 뒤집힌다. */
+.select-shell { position:relative; display:inline-flex; color:var(--muted); }
+.select-shell > select {
+  appearance:none; -webkit-appearance:none;
+  height:35px; padding:0 32px 0 14px;
+  border:1px solid var(--border-strong); border-radius:100px;
+  background:var(--surface); color:inherit;
+  font-size:13px; font-weight:700; line-height:1; cursor:pointer;
+  /* 긴 장르 이름이 들어와도 줄이 밀리지 않게 한다. */
+  max-width:190px; text-overflow:ellipsis;
+}
+.select-shell:hover { color:var(--text-strong); }
+.select-shell:hover > select { border-color:var(--lime); background:var(--surface-2); }
+/* 화살표. 정사각형을 돌려 두 변만 남기면 선이 또렷하다. */
+.select-shell::after {
+  content:""; position:absolute; right:14px; top:calc(50% - 4px);
+  width:6px; height:6px; pointer-events:none;
+  border-right:1.6px solid currentColor; border-bottom:1.6px solid currentColor;
+  transform:rotate(45deg); transition:transform .12s ease;
+}
+.select-shell:focus-within::after { transform:rotate(225deg); top:calc(50% - 1px); }
+/* 정렬은 목록의 순서를 바꾸는 것이라 켜져 있음이 보여야 한다. */
+.select-shell.sorted { color:var(--text); }
+.select-shell.sorted > select { border-color:var(--lime); }
+/* 펼친 목록. 브라우저마다 반영 정도가 다르지만, 되는 곳에서는 배경이 맞는다. */
+.select-shell > select option { background:var(--surface); color:var(--text); }
+@media (prefers-reduced-motion: reduce) { .select-shell::after { transition:none; } }

@@ -75,15 +75,26 @@ export function DiscoverGrid({ games }: { games: GameCardData[] }) {
         {platforms.map((item) => <button key={item} type="button" className={platform === item ? "selected" : ""} onClick={() => setPlatform(item)}>{item}</button>)}
       </div>
       <div className="select-filters">
-        <select aria-label="장르" value={genre} onChange={(event) => setGenre(event.target.value)}>
-          <option>전체 장르</option>{genres.map((item) => <option key={item}>{item}</option>)}
-        </select>
-        <select aria-label="게임 모드" value={mode} onChange={(event) => setMode(event.target.value)}>
-          <option>전체 모드</option>{modes.map((item) => <option key={item}>{item}</option>)}
-        </select>
-        <select aria-label="정렬" value={sort} onChange={(event) => setSort(event.target.value as SortKey)}>
-          {SORTS.map((item) => <option key={item.key} value={item.key}>{item.label}</option>)}
-        </select>
+        {/*
+          기본 셀렉트는 운영체제 모양이 그대로 나와 나머지와 따로 논다.
+          화살표를 직접 그리려면 감싸는 요소가 필요하다 — select 에는 ::after 를
+          붙일 수 없다. 감싼 쪽에 그리면 글자색을 따라가므로 테마도 같이 뒤집힌다.
+        */}
+        <span className="select-shell">
+          <select aria-label="장르" value={genre} onChange={(event) => setGenre(event.target.value)}>
+            <option>전체 장르</option>{genres.map((item) => <option key={item}>{item}</option>)}
+          </select>
+        </span>
+        <span className="select-shell">
+          <select aria-label="게임 모드" value={mode} onChange={(event) => setMode(event.target.value)}>
+            <option>전체 모드</option>{modes.map((item) => <option key={item}>{item}</option>)}
+          </select>
+        </span>
+        <span className="select-shell sorted">
+          <select aria-label="정렬" value={sort} onChange={(event) => setSort(event.target.value as SortKey)}>
+            {SORTS.map((item) => <option key={item.key} value={item.key}>{item.label}</option>)}
+          </select>
+        </span>
         <button type="button" className={koreanOnly ? "selected compact-filter" : "compact-filter"} onClick={() => setKoreanOnly((value) => !value)}>한국어 지원</button>
       </div>
     </div>
