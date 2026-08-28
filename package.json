@@ -6,19 +6,24 @@
     "dev": "next dev -p 3003",
     "build": "next build",
     "start": "next start -p 3003",
-    "lint": "eslint"
+    "lint": "eslint",
+    "cf:build": "NEXT_PUBLIC_NEXPLAY_API_BASE_URL=https://nexplay-api.rubi-on.com opennextjs-cloudflare build && node scripts/assert-no-local-api.mjs",
+    "cf:preview": "npm run cf:build && opennextjs-cloudflare preview",
+    "cf:deploy": "npm run cf:build && opennextjs-cloudflare deploy"
   },
   "dependencies": {
-    "next": "16.3.1",
+    "next": "^16.3.3",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.3.1",
-    "typescript": "^5"
+    "eslint-config-next": "^16.3.3",
+    "typescript": "^5",
+    "wrangler": "^4.127.0"
   }
 }
