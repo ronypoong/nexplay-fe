@@ -24,6 +24,7 @@ export function Header() {
     { href: "/#editor-picks", label: "주인장 픽", icon: <SparkIcon size={16}/> },
     { href: "/#upcoming", label: "출시 예정", icon: <CalendarIcon size={16}/> },
     { href: "/korean", label: "한국어 레이더", icon: <SparkIcon size={16}/> },
+    { href: "/trends", label: "추세와 연기", icon: <TrendingIcon size={16}/> },
     { href: "/discover", label: "게임 탐색", icon: <DiscoverIcon size={16}/> },
     { href: currentCalendarHref(), label: "출시 캘린더", icon: <CalendarIcon size={16}/> },
   ];

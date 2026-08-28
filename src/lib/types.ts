@@ -91,3 +91,13 @@ export type KoreanRadar = {
   forecasts: KoreanForecast[];
   fullVoiceGames: KoreanForecast[];
 };
+
+export type DataMaturity = { days: number; readyAt: number; ready: boolean };
+
+export type Trends = {
+  momentumMaturity: DataMaturity;
+  delayMaturity: DataMaturity;
+  risingGames: Array<{ slug: string; title: string; releaseLabel: string; current: number; previous: number; delta: number }>;
+  recentChanges: Array<{ slug: string; title: string; platform: string; previousDate: string; newDate: string; changeType: string; shiftDays: number; announcedAt: string }>;
+  studios: Array<{ studio: string; trackedGames: number; delays: number; averageShiftDays: number }>;
+};

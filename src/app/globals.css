@@ -467,3 +467,35 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
   .voice-row { grid-template-columns:70px 1fr 18px; }
   .voice-row small { display:none; }
 }
+
+/* ── 추세와 연기 ────────────────────────────────────────────── */
+.collecting { display:flex; flex-direction:column; gap:9px; padding:26px 24px; background:#0d1524; border:1px dashed #2a3852; border-radius:6px; }
+.collecting strong { font-size:14.5px; }
+.collecting p { margin:0; color:#8994a9; font-size:12.5px; }
+.collecting i { display:block; height:6px; margin-top:5px; background:#182238; border-radius:99px; overflow:hidden; }
+.collecting i b { display:block; height:100%; background:linear-gradient(90deg,#7c4fe5,#4c9aff); border-radius:99px; }
+
+.rise-list,.change-list { display:flex; flex-direction:column; border:1px solid #202b40; border-radius:6px; overflow:hidden; }
+.rise-row { display:grid; grid-template-columns:34px 1fr auto auto 18px; align-items:center; gap:14px; padding:14px 18px; background:#0d1524; border-bottom:1px solid #1a2337; transition:background .16s ease; }
+.rise-row:last-child,.change-row:last-child { border-bottom:0; }
+.rise-row:hover,.change-row:hover { background:#0e1728; }
+.rise-rank { display:grid; place-items:center; width:26px; height:26px; background:#6e59cf; border-radius:3px; font:700 12px/1 "Manrope",sans-serif; color:#fff; }
+.rise-copy { min-width:0; display:flex; flex-direction:column; gap:3px; }
+.rise-copy strong { font-size:13.5px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.rise-copy small { color:#7e899f; font-size:11px; }
+.rise-delta { color:#7fe0a8; font:700 14px/1 "Manrope",sans-serif; }
+.rise-score { color:#7e899f; font-size:11px; }
+
+.change-row { display:grid; grid-template-columns:76px 1fr auto; align-items:center; gap:14px; padding:14px 18px; background:#0d1524; border-bottom:1px solid #1a2337; }
+.change-tag { padding:3px 0; text-align:center; border-radius:3px; background:#182238; color:#b2bbcc; font-size:9.5px; font-weight:800; }
+.change-tag.delay { background:#4a2233; color:#ff9db1; }
+.change-copy { min-width:0; display:flex; flex-direction:column; gap:3px; }
+.change-copy strong { font-size:13.5px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.change-copy small { color:#7e899f; font-size:11px; }
+.change-shift { color:#f0c96b; font:700 13px/1 "Manrope",sans-serif; }
+
+@media (max-width:900px) {
+  .rise-row { grid-template-columns:30px 1fr auto; }
+  .rise-score { display:none; }
+  .rise-row>svg { display:none; }
+}
