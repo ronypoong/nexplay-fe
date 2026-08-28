@@ -5,7 +5,11 @@ import { SectionHeading } from "@/components/section-heading";
 import { ArrowIcon } from "@/components/icons";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "한국어 레이더" };
+export const metadata: Metadata = {
+  title: "한국어 레이더",
+  description: "게임의 한국어 자막·음성 지원 여부를 퍼블리셔별로 정리했습니다. 아직 발표되지 않은 작품의 한국어 가능성도 지난 이력으로 가늠합니다.",
+  alternates: { canonical: "/korean" },
+};
 
 export default async function KoreanRadarPage() {
   const radar = await api.koreanRadar();

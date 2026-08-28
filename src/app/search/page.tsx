@@ -3,7 +3,7 @@ import { api } from "@/lib/api";
 export const dynamic = "force-dynamic";
 import { SearchView } from "@/components/search-view";
 
-export const metadata: Metadata = { title: "검색" };
+export const metadata: Metadata = { title: "검색", robots: { index: false } };
 
 export default async function SearchPage() {
   const games = await api.games();

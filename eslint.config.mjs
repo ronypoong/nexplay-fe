@@ -5,5 +5,6 @@ import nextTs from "eslint-config-next/typescript";
 export default defineConfig([
   ...nextVitals,
   ...nextTs,
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
+  // .open-next 와 .wrangler 는 Cloudflare 어댑터가 만드는 빌드 산출물이다.
+  globalIgnores([".next/**", "out/**", "build/**", ".open-next/**", ".wrangler/**", "next-env.d.ts"]),
 ]);

@@ -3,7 +3,11 @@ import { api } from "@/lib/api";
 export const dynamic = "force-dynamic";
 import { DiscoverGrid } from "@/components/discover-grid";
 
-export const metadata: Metadata = { title: "디스커버" };
+export const metadata: Metadata = {
+  title: "디스커버",
+  description: "장르·플랫폼·게임 모드로 올해 신작과 기대작을 찾아봅니다. 한국어 지원 여부도 함께 표시합니다.",
+  alternates: { canonical: "/discover" },
+};
 
 export default async function DiscoverPage() {
   const games = await api.games();

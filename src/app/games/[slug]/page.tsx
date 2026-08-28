@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { api, NexplayNotFoundError } from "@/lib/api";
+import { SITE_URL } from "@/lib/site";
 import { GameArt } from "@/components/game-art";
 import { BookmarkButton } from "@/components/bookmark-button";
 import { EventCard } from "@/components/event-card";
@@ -14,9 +15,29 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   try {
     const game = await api.game(slug);
-    return { title: game.title };
+    // 검색 결과에 뜨는 문장이다. 소개 앞부분을 쓰되 태그라인으로 대신할 수 있게 둔다.
+    const summary = (game.description || game.tagline).replace(/\s+/g, " ").trim().slice(0, 160);
+    return {
+      title: game.title,
+      description: summary,
+      alternates: { canonical: `/games/${slug}` },
+      openGraph: {
+        type: "article",
+        title: `${game.title} · NEXPLAY`,
+        description: summary,
+        url: `/games/${slug}`,
+        images: game.coverImageUrl ? [{ url: game.coverImageUrl }] : undefined,
+      },
+      twitter: {
+        card: game.coverImageUrl ? "summary_large_image" : "summary",
+        title: `${game.title} · NEXPLAY`,
+        description: summary,
+        images: game.coverImageUrl ? [game.coverImageUrl] : undefined,
+      },
+    };
   } catch (error) {
-    if (error instanceof NexplayNotFoundError) return { title: "게임을 찾을 수 없어요" };
+    // 없는 게임까지 색인되면 검색 결과에 빈 페이지가 남는다.
+    if (error instanceof NexplayNotFoundError) return { title: "게임을 찾을 수 없어요", robots: { index: false } };
     throw error;
   }
 }
@@ -50,7 +71,26 @@ export default async function GamePage({ params }: { params: Promise<{ slug: str
   // 위키백과 본문은 CC BY-SA 라 출처와 링크를 반드시 보여야 한다.
   const descriptionSource = metadata.provenance.find((item) => item.field === "description");
 
+  // 검색엔진이 게임 정보를 구조화해 읽도록 한다. 출시일·개발사·플랫폼이
+  // 검색 결과에 함께 표시될 수 있다.
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    name: game.title,
+    description: (game.description || game.tagline).replace(/\s+/g, " ").trim(),
+    url: `${SITE_URL}/games/${game.slug}`,
+    ...(game.coverImageUrl ? { image: game.coverImageUrl } : {}),
+    ...(game.releaseDate !== "TBA" ? { datePublished: game.releaseDate } : {}),
+    author: { "@type": "Organization", name: game.developer },
+    publisher: { "@type": "Organization", name: game.publisher },
+    ...(game.genres.length ? { genre: game.genres } : {}),
+    ...(game.platforms.length ? { gamePlatform: game.platforms } : {}),
+    inLanguage: game.koreanTextSupported ? ["ko", "en"] : ["en"],
+  };
+
   return <main>
+    <script type="application/ld+json" suppressHydrationWarning
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}/>
     <section className="detail-hero"><div className="detail-backdrop" style={{ "--accent": game.accent, "--accent-2": game.accent2 } as React.CSSProperties}/><div className="detail-hero-inner shell"><GameArt game={game} className="detail-cover"/><div className="detail-copy"><div className="breadcrumb"><Link href="/discover">게임 탐색</Link><span>/</span><span>{game.title}</span></div><div className="event-labels"><span className="official">✓ 출처 확인</span><span className="micro-tag">{statusLabel}</span>{game.koreanTextSupported && <span className="micro-tag">한국어</span>}</div><h1>{game.title}</h1><p className="detail-tagline">{game.tagline}</p><div className="detail-facts"><div><small>출시일</small><strong>{game.releaseLabel}</strong></div><div><small>개발</small><strong>{game.developer}</strong></div><div><small>플랫폼</small><strong>{game.platforms.join(" · ")}</strong></div></div><div className="detail-actions"><BookmarkButton large/>{trailer && <a className="secondary-button" href={trailer.url} target="_blank" rel="noreferrer"><PlayIcon/> 공식 영상 보기</a>}</div></div></div></section>
     <div className="detail-layout shell"><div className="detail-main">
       <section><span className="eyebrow">게임 소개</span><h2>이 게임에 대해</h2><p className="long-copy">{game.description}</p>{descriptionSource && <p className="copy-source">출처: {descriptionSource.sourceUrl ? <a href={descriptionSource.sourceUrl} target="_blank" rel="noreferrer">{descriptionSource.source}</a> : descriptionSource.source}{descriptionSource.source === "Wikipedia" && <span> · CC BY-SA</span>}</p>}<div className="tag-row large">{game.genres.map((genre) => <span className="micro-tag" key={genre}>{genre}</span>)}{game.gameModes?.map((mode) => <span className="micro-tag mode-tag" key={mode}>{mode}</span>)}</div></section>

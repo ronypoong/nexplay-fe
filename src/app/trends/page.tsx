@@ -5,7 +5,11 @@ import { SectionHeading } from "@/components/section-heading";
 import { ArrowIcon } from "@/components/icons";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "추세와 연기" };
+export const metadata: Metadata = {
+  title: "추세와 연기",
+  description: "기대 지수가 오르는 게임과 출시일이 바뀐 게임을 추적합니다. 개발사가 일정을 얼마나 지키는지도 함께 봅니다.",
+  alternates: { canonical: "/trends" },
+};
 
 const changeLabels: Record<string, string> = { DELAY: "연기", DATE_CHANGE: "일정 변경", PLATFORM_ADDED: "플랫폼 추가" };
 

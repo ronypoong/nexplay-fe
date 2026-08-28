@@ -5,7 +5,10 @@ import { api } from "@/lib/api";
 import { GameArt } from "@/components/game-art";
 import { ArrowIcon } from "@/components/icons";
 
-export const metadata: Metadata = { title: "출시 캘린더" };
+export const metadata: Metadata = {
+  title: "출시 캘린더",
+  description: "오늘부터 6개월간의 게임 출시 일정을 달력으로 봅니다. 플랫폼별로 걸러 볼 수 있습니다.",
+};
 
 const platforms = ["PC", "PS5", "Xbox", "Switch 2", "미정"];
 
