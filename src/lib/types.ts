@@ -1,6 +1,12 @@
 export type Platform = "PC" | "PS5" | "Xbox" | "Switch 2" | "미정";
 export type EventType = "ANNOUNCEMENT" | "TRAILER" | "GAMEPLAY" | "RELEASE_DATE" | "DELAY" | "RELEASE" | "DEMO" | "BETA" | "DLC" | "EXPANSION" | "MAJOR_UPDATE" | "PATCH";
 
+export type AwardBadge = {
+  label: string;
+  year: number;
+  kind: "GOTY_WINNER" | "GOTY_NOMINEE" | "ANTICIPATED_WINNER" | "ANTICIPATED_NOMINEE";
+};
+
 export type Game = {
   id: string;
   slug: string;
@@ -30,6 +36,7 @@ export type Game = {
   accent2: string;
   symbol: string;
   featured?: boolean;
+  awardBadge?: AwardBadge | null;
 };
 
 export type GameMetadata = {
