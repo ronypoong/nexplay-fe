@@ -209,7 +209,8 @@ button { color:inherit; }
 .secondary-button { height:47px; display:flex; align-items:center; gap:9px; padding:0 18px; border:1px solid #53564e; border-radius:4px; background:transparent; color:#fff; font-size:12px; font-weight:700; cursor:pointer; }
 .detail-layout { display:grid; grid-template-columns:minmax(0,1fr) 290px; gap:85px; padding-block:85px 20px; }
 .detail-main>section { margin-bottom:85px; }
-.long-copy { color:#62665d; font-size:15px; line-height:1.85; max-width:700px; }
+/* Steam 소개문은 문단이 나뉘어 온다. 한 덩어리로 뭉치면 900자가 읽히지 않는다. */
+.long-copy { color:#62665d; font-size:15px; line-height:1.85; max-width:700px; white-space:pre-line; }
 .info-panel { position:sticky; top:105px; background:white; border:1px solid #e2e3dd; padding:25px; }
 .info-panel h3 { font:700 16px "Manrope"; margin:0 0 20px; }
 .detail-scores { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:18px; }
