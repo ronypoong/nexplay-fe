@@ -693,3 +693,22 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 /* 소식 카드에서 게임으로 가는 길 */
 .event-game-link { color:inherit; }
 .event-game-link:hover strong { text-decoration:underline; }
+
+/* 약관·처리방침 본문 */
+.legal { max-width:72ch; }
+.legal h2 { margin:34px 0 12px; font-size:19px; letter-spacing:-.01em; }
+.legal h2:first-child { margin-top:0; }
+.legal h3 { margin:22px 0 8px; font-size:15.5px; color:var(--text); }
+.legal p { margin:0 0 14px; color:var(--muted); font-size:14.5px; line-height:1.8; }
+.legal p b, .legal li b { color:var(--text); font-weight:700; }
+.legal ul { margin:0 0 18px; padding-left:20px; color:var(--muted); font-size:14.5px; line-height:1.8; }
+.legal li { margin-bottom:7px; }
+.legal code { padding:2px 6px; border-radius:3px; background:var(--surface-2); color:var(--text); font-size:13px; }
+.legal a { color:var(--accent-text); text-decoration:underline; }
+.legal .secondary-button { text-decoration:none; }
+.legal-updated { margin-top:34px; padding-top:16px; border-top:1px solid var(--divider); color:var(--muted-2); font-size:13px; }
+
+/* 푸터의 약관 링크 */
+.footer-legal { display:flex; flex-wrap:wrap; gap:6px 16px; }
+.footer-legal a { color:var(--muted); font-size:12.5px; }
+.footer-legal a:hover { color:var(--text); text-decoration:underline; }
