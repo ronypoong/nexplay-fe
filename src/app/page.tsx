@@ -44,7 +44,7 @@ export default async function Home() {
 
     <section id="trending" className="content-section shell"><SectionHeading eyebrow="인기 급상승" title="지금 가장 주목받는 게임" href="/discover"/><TrendingCarousel games={games}/></section>
 
-    {primaryEvent && <section id="announced" className="dark-band"><div className="shell"><div className="magazine-heading"><SectionHeading eyebrow="NEXPLAY 매거진" title="놓치면 안 될 게임 소식" href="/discover" action="전체 소식 보기"/><div className="magazine-index"><span><strong>{stats.totalEvents}</strong> 최신 소식</span><span><strong>{stats.updateEvents}</strong> 패치·업데이트</span><span><strong>{stats.expansionEvents}</strong> 확장팩·DLC</span></div></div><div className="event-grid"><EventCard event={primaryEvent} game={games.find((game) => game.slug === primaryEvent.gameSlug) ?? hero} feature/><div className="event-stack">{supportingEvents.map((event) => <EventCard key={event.id} event={event} game={games.find((game) => game.slug === event.gameSlug) ?? hero}/>)}</div></div></div></section>}
+    {primaryEvent && <section id="announced" className="dark-band"><div className="shell"><div className="magazine-heading"><SectionHeading eyebrow="NEXPLAY 매거진" title="놓치면 안 될 게임 소식" href="/news" action="전체 소식 보기"/><div className="magazine-index"><span><strong>{stats.totalEvents}</strong> 최신 소식</span><span><strong>{stats.updateEvents}</strong> 패치·업데이트</span><span><strong>{stats.expansionEvents}</strong> 확장팩·DLC</span></div></div><div className="event-grid"><EventCard event={primaryEvent} feature/><div className="event-stack">{supportingEvents.map((event) => <EventCard key={event.id} event={event}/>)}</div></div></div></section>}
 
     <EditorPicks picks={picks}/>
 

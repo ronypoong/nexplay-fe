@@ -69,6 +69,10 @@ export type GameEvent = {
   source: string;
   official: boolean;
   sourceCount: number;
+  /** 원문 링크. 우리가 쓴 글이 아니라 남의 발표라는 것이 링크로 드러나야 한다. */
+  sourceUrl: string | null;
+  /** 이 소식이 가리키는 게임. 목록에서 찾지 않고 소식이 직접 들고 온다. */
+  game: GameArtRef | null;
   /** 모델이 원문에서 뽑은 한국어 한 줄. 원문이 영어·일본어면 이게 없으면 제목만 남는다. */
   summaryKo: string | null;
   hasDemo: boolean;
@@ -130,6 +134,17 @@ export type KoreanRadar = {
 };
 
 export type DataMaturity = { days: number; readyAt: number; ready: boolean };
+
+/** 카드 하나를 그리는 데 필요한 최소한. */
+export type GameArtRef = {
+  slug: string;
+  title: string;
+  developer: string;
+  coverImageUrl?: string | null;
+  accent: string;
+  accent2: string;
+  symbol: string;
+};
 
 export type SilenceEntry = {
   slug: string;

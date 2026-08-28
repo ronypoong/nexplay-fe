@@ -21,7 +21,7 @@ export function Header() {
   const nav = [
     { href: "/", label: "홈", icon: <HomeIcon size={16}/> },
     { href: "/#trending", label: "인기 급상승", icon: <TrendingIcon size={16}/> },
-    { href: "/#announced", label: "새 소식", icon: <NewsIcon size={16}/> },
+    { href: "/news", label: "공식 소식", icon: <NewsIcon size={16}/> },
     { href: "/#editor-picks", label: "주인장 픽", icon: <SparkIcon size={16}/> },
     { href: "/#upcoming", label: "출시 예정", icon: <CalendarIcon size={16}/> },
     { href: "/korean", label: "한국어 레이더", icon: <SparkIcon size={16}/> },

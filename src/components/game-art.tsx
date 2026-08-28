@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import type { GameCard } from "@/lib/types";
+import type { GameArtRef } from "@/lib/types";
 
-export function GameArt({ game, className = "" }: { game: GameCard; className?: string }) {
+export function GameArt({ game, className = "" }: { game: GameArtRef; className?: string }) {
   const [imageFailed, setImageFailed] = useState(false);
   const showCover = Boolean(game.coverImageUrl) && !imageFailed;
   return <div className={`game-art ${showCover ? "has-cover" : ""} ${className}`} style={{ "--accent": game.accent, "--accent-2": game.accent2 } as React.CSSProperties}>

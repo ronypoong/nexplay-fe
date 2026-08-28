@@ -45,5 +45,6 @@ export const api = {
   goty: () => request<Goty>("/api/v1/goty"),
   promises: () => request<PromiseLedger>("/api/v1/promises"),
   status: () => request<SyncStatus>("/api/v1/status"),
+  events: (page = 0) => request<GameEvent[]>(`/api/v1/events?page=${page}`),
   gamePromises: (slug: string) => request<PromiseRow[]>(`/api/v1/promises/${slug}`),
 };
