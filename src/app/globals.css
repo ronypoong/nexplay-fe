@@ -652,3 +652,13 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 
 /* 담아둔 게임이 비었을 때 */
 .empty-panel p { margin:10px 0 18px; color:var(--muted); font-size:14px; max-width:52ch; }
+
+/* 기대돼요 — 계정 없이 누르는 유일한 자리 */
+.anticipate { display:flex; flex-direction:column; gap:6px; }
+.anticipate-button { display:inline-flex; align-items:center; gap:9px; height:47px; padding:0 18px; border-radius:4px; border:1px solid var(--border-strong); background:var(--surface-2); color:var(--text-strong); font-weight:700; font-size:14px; cursor:pointer; }
+.anticipate-button:hover:not(:disabled) { border-color:var(--lime); }
+.anticipate-button.on { background:var(--lime-deep); border-color:var(--lime-deep); color:var(--on-accent); }
+.anticipate-button:disabled { opacity:.6; cursor:default; }
+.anticipate-button b { padding:2px 8px; border-radius:999px; background:rgba(255,255,255,.18); font-size:13px; }
+.anticipate-button:not(.on) b { background:var(--surface-3); color:var(--text); }
+.anticipate-note { color:var(--muted); font-size:12.5px; }
