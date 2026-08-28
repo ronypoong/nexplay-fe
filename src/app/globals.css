@@ -573,3 +573,28 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 /* 상세 화면은 라벨 줄에 인라인으로 들어간다 */
 .award-badge.compact { position:static; box-shadow:none; }
 .game-card-art { position:relative; }
+
+/* 약속과 결과 대조표 */
+.table-scroll { overflow-x:auto; border:1px solid var(--border); border-radius:6px; }
+.data-table { width:100%; min-width:640px; border-collapse:collapse; background:var(--surface); font-size:14px; }
+.data-table th, .data-table td { padding:13px 16px; text-align:right; border-bottom:1px solid var(--divider); color:var(--text); }
+.data-table thead th { text-align:right; background:var(--surface-2); color:var(--muted); font-size:12.5px; font-weight:700; white-space:nowrap; }
+.data-table th[scope="row"], .data-table thead th:first-child { text-align:left; font-weight:700; }
+.data-table tbody tr:last-child th, .data-table tbody tr:last-child td { border-bottom:0; }
+.data-table .muted { color:var(--muted); }
+
+.promise-list { display:flex; flex-direction:column; gap:12px; }
+.promise-card { border:1px solid var(--border); border-radius:6px; background:var(--surface); padding:18px 20px; }
+.promise-card header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px; }
+.promise-card header a { color:var(--text-strong); text-decoration:none; font-size:16px; }
+.promise-card header a:hover { text-decoration:underline; }
+.promise-badge { flex:none; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:700; border:1px solid var(--border-strong); color:var(--muted); }
+.promise-badge.broken { color:var(--orange); border-color:var(--orange); }
+.promise-badge.superseded { color:var(--warn); border-color:var(--warn); }
+.promise-badge.kept { color:var(--lime); border-color:var(--lime); }
+.promise-claim { margin:0 0 10px; color:var(--muted); font-size:13.5px; }
+.promise-type { display:inline-block; margin-right:8px; padding:2px 8px; border-radius:4px; background:var(--surface-3); color:var(--text); font-size:12px; font-weight:700; }
+.promise-quote { margin:0 0 10px; padding:10px 14px; border-left:3px solid var(--border-strong); background:var(--surface-sunken); color:var(--text); font-size:13.5px; line-height:1.6; }
+.promise-card footer { display:flex; flex-wrap:wrap; align-items:center; gap:12px; font-size:12.5px; }
+.promise-slip { font-weight:700; color:var(--orange); }
+.promise-card footer .muted { color:var(--muted); }

@@ -151,3 +151,34 @@ export type Goty = {
   nominees: AwardedGame[];
   watchlist: WatchlistEntry[];
 };
+
+export type PromiseRow = {
+  gameSlug: string;
+  gameTitle: string;
+  claimType: "RELEASE_DATE" | "KOREAN_SUPPORT" | "CONTENT" | "PLATFORM" | "DEMO";
+  claimedValue: string;
+  announcedAt: string;
+  status: "KEPT" | "BROKEN" | "SUPERSEDED" | "PENDING";
+  slipDays: number | null;
+  sourceQuote: string | null;
+  evidence: string | null;
+};
+
+export type PublisherScorecard = {
+  companyId: number;
+  name: string;
+  promises: number;
+  kept: number;
+  broken: number;
+  superseded: number;
+  pending: number;
+  keptRate: number | null;
+  medianSlipDays: number | null;
+};
+
+export type PromiseLedger = {
+  totals: Partial<Record<PromiseRow["status"], number>>;
+  scorecards: PublisherScorecard[];
+  recentSlips: PromiseRow[];
+  note: string;
+};
