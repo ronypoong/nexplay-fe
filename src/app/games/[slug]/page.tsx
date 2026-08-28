@@ -74,7 +74,13 @@ export default async function GamePage({ params }: { params: Promise<{ slug: str
   const trailer = metadata.media.find((item) => item.official && (item.type === "TRAILER" || item.type === "GAMEPLAY"));
   const screenshots = metadata.media.filter((item) => item.type === "SCREENSHOT").slice(0, 6);
   const latestPopularity = metadata.popularityHistory[0];
-  // 위키백과 본문은 CC BY-SA 라 출처와 링크를 반드시 보여야 한다.
+  /*
+   * 위키백과 본문은 CC BY-SA 다. 이 라이선스는 세 가지를 요구한다.
+   *   1) 출처 표시 — 문서 링크
+   *   2) 라이선스 링크 — 글자로만 "CC BY-SA" 라고 적는 것으로는 부족하다
+   *   3) 변경 사실 표시 — 우리는 도입부만 받아(exintro) 길이까지 자르므로 변경본이다
+   * 셋 중 둘이 빠져 있었다.
+   */
   const descriptionSource = metadata.provenance.find((item) => item.field === "description");
 
   // 검색엔진이 게임 정보를 구조화해 읽도록 한다. 출시일·개발사·플랫폼이
@@ -99,7 +105,7 @@ export default async function GamePage({ params }: { params: Promise<{ slug: str
       dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}/>
     <section className="detail-hero"><div className="detail-backdrop" style={{ "--accent": game.accent, "--accent-2": game.accent2 } as React.CSSProperties}/><div className="detail-hero-inner shell"><GameArt game={game} className="detail-cover"/><div className="detail-copy"><div className="breadcrumb"><Link href="/discover">게임 탐색</Link><span>/</span><span>{game.title}</span></div><div className="event-labels"><AwardBadge badge={game.awardBadge} compact/><span className="official">✓ 출처 확인</span><span className="micro-tag">{statusLabel}</span>{game.koreanTextSupported && <span className="micro-tag">한국어</span>}</div><h1>{game.title}</h1><p className="detail-tagline">{game.tagline}</p><div className="detail-facts"><div><small>출시일</small><strong>{game.releaseLabel}</strong></div><div><small>개발</small><strong>{game.developer}</strong></div><div><small>플랫폼</small><strong>{game.platforms.join(" · ")}</strong></div></div><div className="detail-actions"><BookmarkButton large/>{trailer && <a className="secondary-button" href={trailer.url} target="_blank" rel="noreferrer"><PlayIcon/> 공식 영상 보기</a>}</div></div></div></section>
     <div className="detail-layout shell"><div className="detail-main">
-      <section><span className="eyebrow">게임 소개</span><h2>이 게임에 대해</h2><p className="long-copy">{game.description}</p>{descriptionSource && <p className="copy-source">출처: {descriptionSource.sourceUrl ? <a href={descriptionSource.sourceUrl} target="_blank" rel="noreferrer">{descriptionSource.source}</a> : descriptionSource.source}{descriptionSource.source === "Wikipedia" && <span> · CC BY-SA</span>}</p>}<div className="tag-row large">{game.genres.map((genre) => <span className="micro-tag" key={genre}>{genre}</span>)}{game.gameModes?.map((mode) => <span className="micro-tag mode-tag" key={mode}>{mode}</span>)}</div></section>
+      <section><span className="eyebrow">게임 소개</span><h2>이 게임에 대해</h2><p className="long-copy">{game.description}</p>{descriptionSource && <p className="copy-source">출처: {descriptionSource.sourceUrl ? <a href={descriptionSource.sourceUrl} target="_blank" rel="noreferrer">{descriptionSource.source}</a> : descriptionSource.source}{descriptionSource.source === "Wikipedia" && <> · 도입부 발췌 · <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ko" target="_blank" rel="license noreferrer">CC BY-SA 4.0</a></>}</p>}<div className="tag-row large">{game.genres.map((genre) => <span className="micro-tag" key={genre}>{genre}</span>)}{game.gameModes?.map((mode) => <span className="micro-tag mode-tag" key={mode}>{mode}</span>)}</div></section>
       {screenshots.length > 0 && <section><SectionHeading eyebrow="공식 미디어" title="스크린샷과 영상"/><div className="media-grid">{screenshots.map((item) => <a href={item.url} target="_blank" rel="noreferrer" key={item.id}><Image src={item.thumbnailUrl ?? item.url} alt={`${game.title} 공식 스크린샷`} width={640} height={360}/><span>{item.source}</span></a>)}</div></section>}
       {metadata.systemRequirements.length > 0 && <section><SectionHeading eyebrow="PC 정보" title="시스템 요구사항"/><div className="requirement-grid">{metadata.systemRequirements.map((item) => <article className="data-panel" key={`${item.platform}-${item.level}`}><small>{item.level === "MINIMUM" ? "최소 사양" : "권장 사양"}</small><p>{cleanText(item.rawText)}</p><footer>{item.source} 확인</footer></article>)}</div></section>}
       {metadata.relations.length > 0 && <section><SectionHeading eyebrow="게임 세계" title="관련 게임과 콘텐츠"/><div className="relation-list">{metadata.relations.map((item, index) => <a href={item.slug ? `/games/${item.slug}` : item.url ?? "#"} key={`${item.title}-${index}`}><span>{relationLabels[item.type] ?? item.type}</span><strong>{item.title}</strong><ArrowIcon/></a>)}</div></section>}
