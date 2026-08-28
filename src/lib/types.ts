@@ -229,3 +229,33 @@ export type SyncStatus = {
   steps: Array<{ step: string; status: string; lastRunAt: string; detail: string | null }>;
   totals: Record<string, number>;
 };
+
+export type EventSourceRef = { name: string; url: string; official: boolean };
+
+/** 모델이 원문에서 뽑아 둔 사실들. 없으면 아직 읽지 않은 소식이다. */
+export type ExtractedFacts = {
+  confidence: string;
+  mentionedReleaseDate: string | null;
+  discountPercent: number | null;
+  hasDemo: boolean;
+  marketingNoise: boolean;
+  /** 그렇게 분류한 근거를 원문에서 인용한 것. */
+  reason: string | null;
+  model: string;
+};
+
+export type EventDetail = {
+  id: string;
+  type: EventType;
+  title: string;
+  summary: string;
+  summaryKo: string | null;
+  eventDate: string;
+  publishedAt: string;
+  gameSlug: string;
+  gameTitle: string;
+  sources: EventSourceRef[];
+  facts: ExtractedFacts | null;
+  /** 이 발표에서 뽑은 약속. */
+  promises: PromiseRow[];
+};

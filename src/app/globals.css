@@ -675,3 +675,17 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 .news-pager { display:flex; justify-content:space-between; gap:12px; margin-top:28px; }
 .event-source { display:inline-flex; align-items:center; gap:6px; margin-top:10px; color:var(--accent-text); font-size:12.5px; font-weight:650; }
 .event-source:hover { text-decoration:underline; }
+
+/* 소식 상세 — 원문은 옮기지 않고 확인한 것만 */
+.news-summary { margin:14px 0 0; font-size:17px; line-height:1.7; color:var(--text); max-width:64ch; }
+.news-meta { margin:12px 0 0; color:var(--muted); font-size:13px; }
+.news-source-panel { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:18px; padding:22px 24px; border:1px solid var(--border); border-radius:6px; background:var(--surface); }
+.news-source-panel strong { display:block; font-size:16px; color:var(--text-strong); }
+.news-source-panel p { margin:6px 0 0; color:var(--muted); font-size:13.5px; max-width:46ch; }
+.news-source-links { display:flex; flex-wrap:wrap; gap:10px; }
+.fact-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:6px; overflow:hidden; }
+.fact-grid div { display:flex; flex-direction:column; gap:6px; padding:16px 18px; background:var(--surface); }
+.fact-grid small { color:var(--muted); font-size:12.5px; font-weight:600; }
+.fact-grid strong { font:700 17px/1.2 "Manrope",sans-serif; color:var(--text-strong); }
+.fact-reason { margin:16px 0 0; padding:14px 18px; border-left:3px solid var(--border-strong); background:var(--surface-sunken); color:var(--text); font-size:14px; line-height:1.7; }
+.fact-reason cite { display:block; margin-top:8px; font-style:normal; color:var(--muted-2); font-size:12px; }
