@@ -489,6 +489,18 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 .voice-row strong { font-size:15px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
 .voice-row small { color:var(--muted); font-size:13px; }
 
+/* ── 개발사와 퍼블리셔 ──────────────────────────────────────── */
+/* forecast-card 와 같은 골격이다. 회사는 문장이 없고 게임 수가 오른쪽에 붙는다. */
+.company-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(228px,1fr)); gap:14px; }
+.company-card { display:grid; grid-template-columns:1fr auto; align-items:center; gap:4px 12px; padding:16px 18px; background:var(--surface); border:1px solid var(--border); border-radius:6px; transition:border-color .16s ease; }
+.company-card:hover { border-color:#425575; }
+.company-card strong { grid-column:1; font-size:15.5px; line-height:1.35; }
+.company-card small { grid-column:1; color:var(--muted); font-size:13px; }
+/* 이름이 두 줄이 돼도 숫자는 자리를 지킨다. 두 줄에 걸쳐 세로 가운데에 둔다. */
+.company-count { grid-column:2; grid-row:1 / span 2; padding:3px 10px; border-radius:3px; background:var(--surface-3); color:var(--accent-violet); font:700 14px/1.5 "Manrope",sans-serif; white-space:nowrap; }
+.hero-link { display:inline-flex; align-items:center; gap:7px; margin-top:16px; color:var(--accent-violet); font-size:14px; font-weight:700; }
+.hero-link:hover { color:var(--text-strong); }
+
 /* ── 주인장이 눈여겨보는 작품 ───────────────────────────────── */
 .editor-picks { position:relative; }
 .editor-head { margin-bottom:26px; padding-left:16px; border-left:3px solid var(--lime); }

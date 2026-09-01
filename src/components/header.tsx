@@ -32,6 +32,7 @@ export function Header() {
     { href: "/promises", label: "약속과 결과", icon: <NewsIcon size={16}/> },
     { href: "/saved", label: "담아둔 게임", icon: <BookmarkIcon size={16}/> },
     { href: "/discover", label: "게임 탐색", icon: <DiscoverIcon size={16}/> },
+    { href: "/companies", label: "개발사 · 퍼블리셔", icon: <DiscoverIcon size={16}/> },
     { href: currentCalendarHref(), label: "출시 캘린더", icon: <CalendarIcon size={16}/> },
   ];
 

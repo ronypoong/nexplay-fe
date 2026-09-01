@@ -1,4 +1,4 @@
-import type { GameDetailBundle, EventDetail, SyncStatus, EditorPick, Feed, Game, GameCard, GameEvent, GameMetadata, GameRelease, Goty, KoreanRadar, PromiseLedger, PromiseRow, Trends } from "./types";
+import type { Company, CompanyDetail, GameDetailBundle, EventDetail, SyncStatus, EditorPick, Feed, Game, GameCard, GameEvent, GameMetadata, GameRelease, Goty, KoreanRadar, PromiseLedger, PromiseRow, Trends } from "./types";
 
 const API_BASE = process.env.NEXT_PUBLIC_NEXPLAY_API_BASE_URL;
 
@@ -51,4 +51,7 @@ export const api = {
   gamePromises: (slug: string) => request<PromiseRow[]>(`/api/v1/promises/${slug}`),
   /** 지금 해 볼 수 있는 데모·베타. 기간이 지나면 사라지므로 최근 것만 온다. */
   playtests: () => request<GameEvent[]>("/api/v1/playtests"),
+  /** 회사 목록. 게임 한 편짜리 1,500곳을 다 세우면 훑어볼 수 없어 기본을 2편으로 둔다. */
+  companies: (minGames = 2) => request<Company[]>(`/api/v1/companies?minGames=${minGames}`),
+  company: (slug: string) => request<CompanyDetail>(`/api/v1/companies/${slug}`),
 };

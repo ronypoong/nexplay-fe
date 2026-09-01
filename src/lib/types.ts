@@ -268,3 +268,29 @@ export type GameDetailBundle = {
   promises: PromiseRow[];
   related: GameCard[];
 };
+
+/**
+ * 회사 하나. 게임 수를 같이 받는다.
+ *
+ * 등록된 회사가 1,900곳인데 그중 1,500곳이 게임 한 편짜리다. 이름만 늘어놓으면
+ * 어디를 눌러야 볼 게 있는지 알 수 없어서, 목록은 게임 수를 기준으로 세운다.
+ */
+export type Company = {
+  id: number;
+  slug: string;
+  name: string;
+  type: "DEVELOPER" | "PUBLISHER" | "MIXED";
+  country: string | null;
+  officialUrl: string | null;
+  wikidataId: string | null;
+  major: boolean;
+  gameCount: number;
+};
+
+export type CompanyDetail = {
+  company: Company;
+  /** 개발한 게임. */
+  developed: GameCard[];
+  /** 배급한 게임. 개발도 같은 회사면 developed 에만 들어간다. */
+  published: GameCard[];
+};
