@@ -49,4 +49,6 @@ export const api = {
   events: (page = 0) => request<GameEvent[]>(`/api/v1/events?page=${page}`),
   event: (id: string) => request<EventDetail>(`/api/v1/events/${id}`),
   gamePromises: (slug: string) => request<PromiseRow[]>(`/api/v1/promises/${slug}`),
+  /** 지금 해 볼 수 있는 데모·베타. 기간이 지나면 사라지므로 최근 것만 온다. */
+  playtests: () => request<GameEvent[]>("/api/v1/playtests"),
 };

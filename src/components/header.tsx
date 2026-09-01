@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./theme-toggle";
 import { useEffect, useState } from "react";
-import { CalendarIcon, DiscoverIcon, HomeIcon, MenuIcon, NewsIcon, SearchIcon, SparkIcon, TrendingIcon, BookmarkIcon } from "./icons";
+import { CalendarIcon, DiscoverIcon, HomeIcon, MenuIcon, NewsIcon, PlayIcon, SearchIcon, SparkIcon, TrendingIcon, BookmarkIcon } from "./icons";
 
 const homeSections = ["trending", "announced", "editor-picks", "upcoming"];
 
@@ -24,6 +24,8 @@ export function Header() {
     { href: "/news", label: "공식 소식", icon: <NewsIcon size={16}/> },
     { href: "/#editor-picks", label: "주인장 픽", icon: <SparkIcon size={16}/> },
     { href: "/#upcoming", label: "출시 예정", icon: <CalendarIcon size={16}/> },
+    // 기다리는 것들 바로 다음에 둔다. 여기만 지금 할 수 있는 것이라 묻히면 의미가 없다.
+    { href: "/playtests", label: "데모 · 베타", icon: <PlayIcon size={16}/> },
     { href: "/korean", label: "한국어 레이더", icon: <SparkIcon size={16}/> },
     { href: "/trends", label: "추세와 연기", icon: <TrendingIcon size={16}/> },
     { href: "/goty", label: "GOTY 아카이브", icon: <SparkIcon size={16}/> },
