@@ -249,16 +249,28 @@ button { color:inherit; }
 .month-nav { display:flex; gap:6px; margin-bottom:47px; }.month-nav button,.month-nav a,.month-nav>span { display:grid; min-width:36px; place-items:center; border-radius:3px; background:white; padding:8px 12px; }.month-nav>span[aria-disabled="true"] { opacity:.32; cursor:not-allowed; }.month-nav a.current { color:var(--text-strong); border-color:var(--lime); background:linear-gradient(100deg,#744dff,#2a63c8); }
 .calendar-filter { margin-bottom:20px; justify-content:flex-start; }
 .calendar { border:1px solid #dfe0da; background:white; }
-.weekdays { display:grid; grid-template-columns:repeat(7,1fr); background:var(--surface-2); border-bottom:1px solid #dfe0da; }
+/* minmax(0,1fr) 이어야 한다. 1fr 은 minmax(auto,1fr) 이라 칸이 내용보다 작아지지
+   못하고, 긴 제목 하나가 그 열을 통째로 밀어 일곱 칸의 폭이 제각각이 된다.
+   요일 줄과 날짜 줄이 같은 규칙이어야 세로줄이 맞는다. */
+.weekdays { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); background:var(--surface-2); border-bottom:1px solid #dfe0da; }
 .weekdays span { padding:11px; text-align:center; color:var(--muted); font-size:12.5px; font-weight:800; }
-.calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); }
-.calendar-day { min-height:137px; padding:10px; border-right:1px solid #ecece8; border-bottom:1px solid #ecece8; }
+.calendar-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); }
+/* min-width:0 이 없으면 그리드 항목의 자동 최소 크기가 내용 크기로 잡혀서,
+   위에서 minmax(0,1fr) 로 열을 묶어 둔 것이 도로 풀린다. */
+.calendar-day { min-width:0; min-height:137px; display:flex; flex-direction:column; padding:10px; border-right:1px solid #ecece8; border-bottom:1px solid #ecece8; }
 .calendar-day:nth-child(7n) { border-right:0; }.calendar-day.muted { background:var(--surface-2); color:var(--text); }.calendar-day.today .day-number { width:24px; height:24px; display:grid; place-items:center; background:var(--lime-deep); color:var(--on-accent); border-radius:50%; }
 .day-number { font-size:13px; font-weight:700; }
-.calendar-game { display:flex; gap:7px; align-items:center; margin-top:9px; padding:5px; border-radius:3px; background:#f1f8df; }
+.calendar-game { min-width:0; display:flex; gap:7px; align-items:center; margin-top:9px; padding:5px; border-radius:3px; background:#f1f8df; }
 .calendar-game .game-art { width:36px; height:38px; min-height:38px; border-radius:2px; flex:none; }.calendar-game .art-title { display:none; }.calendar-game .art-symbol { font-size:18px; }
 .calendar-more { display:block; margin-top:5px; padding-left:5px; color:var(--muted); font-size:11.5px; }
-.calendar-game>span { min-width:0; display:flex; flex-direction:column; }.calendar-game strong { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; font-size:12px; }.calendar-game small { color:var(--muted); font-size:11.5px; margin-top:2px; }
+.calendar-game>span { min-width:0; display:flex; flex-direction:column; }
+/* 제목과 부제 둘 다 한 줄로 자른다. 제목만 잘라 뒀더니 부제가 두 줄로 접히면서
+   그 칸만 키가 커졌고, 그리드 행은 가장 큰 칸을 따라가므로 그 줄 전체가 들떴다.
+   제일 긴 제목이 52자("東方紅魔郷：New Classic ～ the Embodiment of Scarlet Devil.")라
+   폭을 아무리 줘도 들어가지 않는다. 자르는 편이 맞다. */
+.calendar-game strong,.calendar-game small { display:block; max-width:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.calendar-game strong { font-size:12px; }
+.calendar-game small { color:var(--muted); font-size:11.5px; margin-top:2px; }
 .release-agenda { margin-top:60px; }.release-agenda .upcoming-item { grid-template-columns:65px 84px 1fr 220px 24px; }
 .not-found { min-height:75vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }.not-found>span { color:var(--accent-violet); font:800 90px "Manrope"; }.not-found h1 { margin:0; font:700 28px "Manrope"; }.not-found p { color:var(--muted); }.not-found a { margin-top:20px; }
 
@@ -269,6 +281,9 @@ button { color:inherit; }
   .card-grid { grid-template-columns:repeat(2,1fr); }.magazine-heading { grid-template-columns:1fr; }.magazine-index { margin-top:-24px; overflow-x:auto; }.event-grid { grid-template-columns:1fr; }.event-card.featured-event { min-height:380px; }
   .hidden-gems { grid-template-columns:1fr; gap:40px; }.detail-hero-inner { grid-template-columns:minmax(280px,360px) 1fr; gap:35px; }.detail-cover { width:100%; height:auto; }.detail-layout { grid-template-columns:1fr; gap:0; }.detail-aside { display:none; }
   .calendar-day { min-height:110px; }.calendar-game { flex-direction:column; align-items:flex-start; }.calendar-game .game-art { width:100%; }.calendar-game small { display:none; }
+  /* 세로로 쌓이면 align-items:flex-start 때문에 글 상자가 제 내용만큼만 넓어진다.
+     그러면 폭이 안 묶여 말줄임이 걸리지 않고 제목이 그대로 칸을 넘는다. */
+  .calendar-game>span { align-self:stretch; }
 }
 
 @media (max-width:600px) {
