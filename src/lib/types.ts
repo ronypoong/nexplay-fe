@@ -294,3 +294,30 @@ export type CompanyDetail = {
   /** 배급한 게임. 개발도 같은 회사면 developed 에만 들어간다. */
   published: GameCard[];
 };
+
+/** 지금 할인 중인 게임 한 건. 가격은 원 단위로 이미 나눠서 온다. */
+export type Deal = {
+  slug: string;
+  title: string;
+  developer: string | null;
+  coverImageUrl: string | null;
+  accent: string | null;
+  symbol: string | null;
+  score: number;
+  status: string;
+  releaseLabel: string | null;
+  currency: string;
+  originalPrice: number;
+  salePrice: number;
+  discountPercent: number;
+  storeUrl: string;
+  /** 언제 본 값인가. 할인은 끝나면 사라지므로 화면에서 숨기지 않는다. */
+  checkedAt: string;
+};
+
+export type Deals = {
+  deals: Deal[];
+  total: number;
+  maxDiscount: number;
+  checkedAt: string | null;
+};

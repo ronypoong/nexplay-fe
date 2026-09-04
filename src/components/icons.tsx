@@ -14,4 +14,5 @@ export function HomeIcon({ size = 18, ...props }: IconProps) { return <svg {...b
 export function TrendingIcon({ size = 18, ...props }: IconProps) { return <svg {...base(size)} {...props}><path d="m4 16 5-5 4 4 7-8"/><path d="M15 7h5v5"/></svg>; }
 export function NewsIcon({ size = 18, ...props }: IconProps) { return <svg {...base(size)} {...props}><path d="M5 4h12a2 2 0 0 1 2 2v14H6a3 3 0 0 1-3-3V6a2 2 0 0 1 2-2Z"/><path d="M7 8h8M7 12h8M7 16h5"/></svg>; }
 export function EyeIcon({ size = 18, ...props }: IconProps) { return <svg {...base(size)} {...props}><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle cx="12" cy="12" r="2.7"/></svg>; }
+export function TagIcon({ size = 18, ...props }: IconProps) { return <svg {...base(size)} {...props}><path d="M3 12V5a2 2 0 0 1 2-2h7l9 9-9 9Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>; }
 export function DiscoverIcon({ size = 18, ...props }: IconProps) { return <svg {...base(size)} {...props}><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5Z"/></svg>; }
