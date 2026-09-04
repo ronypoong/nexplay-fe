@@ -256,7 +256,9 @@ button { color:inherit; }
 .deal-art .game-art { height:100%; transition:.4s ease; }
 .deal-card:hover .deal-art .game-art { transform:scale(1.03); }
 /* 할인율은 이 화면에서 제일 먼저 읽혀야 하는 값이다. */
-.deal-badge { position:absolute; top:9px; left:9px; padding:4px 9px; border-radius:100px; background:var(--lime-deep); color:var(--on-accent); font:800 13px/1 "Manrope"; letter-spacing:-.3px; }
+/* 이 화면에서 제일 먼저 읽혀야 하는 값이라 크게 둔다. 표지 위에 얹히므로
+   그림자를 조금 줘서 밝은 커버에서도 글자가 뜬다. */
+.deal-badge { position:absolute; top:10px; left:10px; padding:7px 13px; border-radius:100px; background:var(--lime-deep); color:var(--on-accent); font:800 23px/1 "Manrope"; letter-spacing:-1.2px; box-shadow:0 3px 12px rgba(20,21,18,.22); }
 .deal-body { display:flex; flex-direction:column; gap:3px; padding:15px 16px 16px; }
 .deal-body h3 { margin:0; font:700 15.5px/1.3 "Manrope"; letter-spacing:-.4px; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
 .deal-body small { color:var(--muted); font-size:12.5px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
@@ -316,6 +318,8 @@ button { color:inherit; }
   .site-footer .shell { align-items:flex-start; flex-direction:column; gap:15px; }.site-footer p { margin:0; }
   .page-shell { padding-block:47px 80px; }.page-hero { margin-bottom:35px; }.page-hero h1 { font-size:41px; letter-spacing:-2.5px; }.filter-bar { align-items:flex-start; flex-direction:column; gap:13px; }.chip-group { flex-wrap:nowrap; max-width:100%; overflow-x:auto; padding-bottom:4px; }.chip-group button { white-space:nowrap; }.search-field { height:60px; }.search-field input { min-width:0; font-size:18px; }.popular-searches { overflow-x:auto; }.popular-searches button { white-space:nowrap; }
   .detail-hero-inner { grid-template-columns:1fr; padding-block:35px 50px; }.detail-cover { height:auto; width:100%; }.detail-copy h1 { font-size:43px; letter-spacing:-2.5px; }.detail-facts { gap:22px; flex-wrap:wrap; }.detail-actions { flex-direction:column; }.bookmark-button.large,.secondary-button { justify-content:center; }.detail-layout { padding-top:55px; }.detail-main .event-card { grid-template-columns:1fr; }.detail-main .event-art { height:120px; }.detail-main .event-footer { display:flex; }
+  /* 두 칸으로 좁아지면 배지가 표지를 절반 가린다. 조금 줄인다. */
+  .deal-badge { top:8px; left:8px; padding:5px 10px; font-size:18px; }
   .calendar-head { display:block; }.month-nav { margin:0 0 25px; }.calendar { overflow-x:auto; }.weekdays,.calendar-grid { min-width:690px; }.calendar-day { min-height:110px; }.release-agenda .upcoming-item { grid-template-columns:50px 60px 1fr 18px; }.release-agenda .platforms { display:none; }
 }
 
