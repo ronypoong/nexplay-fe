@@ -3,6 +3,7 @@ import Link from "next/link";
 import { api } from "@/lib/api";
 import { EventCard } from "@/components/event-card";
 import { SectionHeading } from "@/components/section-heading";
+import { ArrowIcon, NewsIcon, TrendingIcon } from "@/components/icons";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
@@ -25,6 +26,12 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
         영어·일본어로 온 발표에는 한국어 한 줄을 붙입니다.
       </p>
     </div>
+
+    {/* 사이드바에서 뺀 두 기록 화면. 둘 다 공식 발표에서 파생된 기록이라 소식이 제자리다. */}
+    <nav className="record-links" aria-label="발표 기록">
+      <Link href="/trends"><TrendingIcon size={18}/><span><strong>추세와 연기</strong><small>기대 지수의 움직임과 출시일 변경 이력</small></span><ArrowIcon/></Link>
+      <Link href="/promises"><NewsIcon size={18}/><span><strong>약속과 결과</strong><small>게임사가 발표에서 한 말과 실제로 지킨 것</small></span><ArrowIcon/></Link>
+    </nav>
 
     <section className="content-section">
       <SectionHeading eyebrow={`${current + 1}쪽`} title="중요한 것부터"/>

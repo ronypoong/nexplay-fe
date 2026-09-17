@@ -29,9 +29,8 @@ export function Header() {
     // 데모 바로 다음. 둘 다 "지금 할 수 있는 것" 이고, 기간이 끝나면 사라진다.
     { href: "/deals", label: "할인 중", icon: <TagIcon size={16}/> },
     { href: "/korean", label: "한국어 레이더", icon: <SparkIcon size={16}/> },
-    { href: "/trends", label: "추세와 연기", icon: <TrendingIcon size={16}/> },
     { href: "/goty", label: "GOTY 아카이브", icon: <SparkIcon size={16}/> },
-    { href: "/promises", label: "약속과 결과", icon: <NewsIcon size={16}/> },
+    // 추세와 연기, 약속과 결과는 메뉴가 화면을 넘겨서 뺐다. 공식 소식 화면 상단에 묶여 있다.
     { href: "/saved", label: "담아둔 게임", icon: <BookmarkIcon size={16}/> },
     { href: "/discover", label: "게임 탐색", icon: <DiscoverIcon size={16}/> },
     { href: "/companies", label: "개발사 · 퍼블리셔", icon: <DiscoverIcon size={16}/> },
