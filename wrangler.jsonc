@@ -1,7 +1,8 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "nexplay-fe",
-  "main": ".open-next/worker.js",
+  // OpenNext 워커를 그대로 쓰지 않고 HTML 엣지 캐시 래퍼로 감싼다. worker.js 참고.
+  "main": "worker.js",
   // 이 날짜 기준의 Workers 런타임 동작을 쓴다. 올리면 동작이 달라질 수
   // 있으므로 배포 후 확인 없이 바꾸지 않는다.
   "compatibility_date": "2026-08-01",
@@ -15,6 +16,12 @@
 
   "observability": {
     "enabled": true
+  },
+
+  // 밤새 손님이 없으면 Railway 원본이 잠들어 아침 첫 방문이 10초를 넘긴다(실측 12초).
+  // 5분마다 원본을 찔러 깨워 둔다. scheduled 핸들러는 worker.js 에 있다.
+  "triggers": {
+    "crons": ["*/5 * * * *"]
   },
 
   "vars": {
