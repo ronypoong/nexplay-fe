@@ -598,6 +598,9 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 .index-pages a:hover { color:var(--text-strong); background:var(--surface-2); }
 .index-pages b { color:var(--on-accent); background:var(--lime-deep); }
 .index-pages i { padding:0 3px; font-style:normal; }
+.year-hops { display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; padding-top:22px; border-top:1px solid var(--border); }
+.year-hops a { padding:9px 14px; border:1px solid var(--border); border-radius:5px; color:var(--muted); font-size:13.5px; }
+.year-hops a:hover { color:var(--text-strong); border-color:var(--muted); background:var(--surface-2); }
 @media (max-width:600px) { .game-index { grid-template-columns:1fr; } }
 .collecting { display:flex; flex-direction:column; gap:9px; padding:26px 24px; background:var(--surface); border:1px dashed var(--border); border-radius:6px; }
 .collecting strong { font-size:16px; }

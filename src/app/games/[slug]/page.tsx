@@ -58,7 +58,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const game = await api.game(slug);
     const summary = searchSummary(game);
     return {
-      title: game.title,
+      // 제목만 걸면 "프래그마타" 한 단어로만 겨루는데, 그 단어는 스팀과 나무위키가
+      // 이미 갖고 있다. 사람들이 실제로 치는 말은 "게임명 출시일", "게임명 한국어"
+      // 쪽이다. 화면에 정말 있는 것만 적는다 — 한국어 판정이 없으면 그렇게 쓰지 않는다.
+      title: game.koreanTextSupported == null ? `${game.title} 출시일과 플랫폼` : `${game.title} 출시일과 한국어 지원`,
       description: summary,
       alternates: { canonical: `/games/${slug}` },
       openGraph: {

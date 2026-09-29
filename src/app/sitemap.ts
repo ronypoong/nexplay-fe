@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { api } from "@/lib/api";
-import { GAMES_PER_PAGE, SITE_URL } from "@/lib/site";
+import { GAMES_PER_PAGE, SITE_URL, YEAR_PAGE_MIN_GAMES } from "@/lib/site";
 
 // 카탈로그가 매일 바뀌므로 사이트맵도 요청 시점에 만든다.
 export const dynamic = "force-dynamic";
@@ -51,20 +51,36 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // 백엔드가 죽어도 사이트맵은 나가야 한다. 고정 경로라도 색인되는 편이 낫다.
   const games = await api.games().catch(() => []);
-  // 전체 목록 페이지. 게임 상세로 가는 유일한 크롤 경로가 회사 상세뿐이었다.
-  const indexPages: MetadataRoute.Sitemap = Array.from(
-    { length: Math.max(1, Math.ceil(games.length / GAMES_PER_PAGE)) },
-    (_, index) => ({
-      url: index === 0 ? `${SITE_URL}/games` : `${SITE_URL}/games?page=${index + 1}`,
+
+  /** 쪽 나뉜 목록 하나를 사이트맵 줄로 펴 준다. 1쪽은 쿼리 없는 주소가 정본이다. */
+  const paged = (base: string, count: number, priority: number): MetadataRoute.Sitemap =>
+    Array.from({ length: Math.max(1, Math.ceil(count / GAMES_PER_PAGE)) }, (_, index) => ({
+      url: index === 0 ? `${SITE_URL}${base}` : `${SITE_URL}${base}?page=${index + 1}`,
       lastModified: today,
       changeFrequency: "daily" as const,
-      priority: 0.7,
-    }),
-  );
+      priority,
+    }));
+
+  const koreanCount = games.filter((game) => game.koreanTextSupported === true).length;
+  // 해마다 몇 개가 있는지는 카탈로그가 정한다. 빈 해를 걸면 사이트맵이 404 를 가리킨다.
+  const years = new Map<string, number>();
+  games.forEach((game) => {
+    const year = (game.releaseDate || "").slice(0, 4);
+    if (/^\d{4}$/.test(year)) years.set(year, (years.get(year) ?? 0) + 1);
+  });
 
   return [
     ...fixed,
-    ...indexPages,
+    // 전체 목록. 게임 상세로 가는 유일한 크롤 경로가 회사 상세뿐이었다.
+    ...paged("/games", games.length, 0.7),
+    // 이 사이트만 답할 수 있는 질문이라 우선순위를 높게 둔다.
+    ...(koreanCount > 0 ? paged("/korean/games", koreanCount, 0.8) : []),
+    // 게임 한두 개짜리 해(2013, 2016, 2024…)는 사이트맵에 올리지 않는다. 페이지는
+    // 살아 있지만, 줄 하나짜리 목록을 색인해 달라고 내미는 것은 사이트 전체의
+    // 인상만 깎는다. 카탈로그가 차면 저절로 문턱을 넘는다.
+    ...[...years.entries()]
+      .filter(([, count]) => count >= YEAR_PAGE_MIN_GAMES)
+      .flatMap(([year, count]) => paged(`/releases/${year}`, count, 0.7)),
     // 게임 상세에는 lastmod 를 적지 않는다. 언제 바뀌었는지 모르기 때문이다.
     // 모르는 것을 오늘로 적으면 위에서 없앤 거짓말을 여기서 되살리는 꼴이다.
     ...games.map((game) => ({

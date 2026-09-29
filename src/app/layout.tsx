@@ -29,6 +29,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   const themeBootstrap = `try{var t=localStorage.getItem("nexplay-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}`;
   return <html lang="ko" data-scroll-behavior="smooth" suppressHydrationWarning>
     <head><script dangerouslySetInnerHTML={{ __html: themeBootstrap }}/></head>
-    <body><Header/>{children}<footer className="site-footer"><div className="shell"><span className="footer-brand">NEX<span>PLAY</span></span><p>다음에 플레이할 게임을 발견하는 가장 빠른 방법.</p><ArchiveStatus/>{/* 전체 목록은 모든 화면에서 한 번에 닿아야 한다. 사이드바는 이미 길어서 여기 둔다. */}<nav className="footer-legal" aria-label="사이트 링크"><Link href="/games">게임 전체 목록</Link><Link href="/terms">이용약관</Link><Link href="/privacy">개인정보처리방침</Link></nav><span>© 2026 RUBI-ON</span></div></footer></body>
+    <body><Header/>{children}<footer className="site-footer"><div className="shell"><span className="footer-brand">NEX<span>PLAY</span></span><p>다음에 플레이할 게임을 발견하는 가장 빠른 방법.</p><ArchiveStatus/>{/* 전체 목록은 모든 화면에서 한 번에 닿아야 한다. 사이드바는 이미 길어서 여기 둔다. */}<nav className="footer-legal" aria-label="사이트 링크"><Link href="/games">게임 전체 목록</Link><Link href="/korean/games">한국어 지원 게임</Link><Link href="/terms">이용약관</Link><Link href="/privacy">개인정보처리방침</Link></nav><span>© 2026 RUBI-ON</span></div></footer></body>
   </html>;
 }
