@@ -23,7 +23,7 @@ export const YEAR_PAGE_MIN_GAMES = 10;
  * 모든 화면 머리에 붙는다. 비어 있으면 태그 자체를 내지 않는다 — 빈 값으로
  * 붙은 메타 태그는 확인에 실패하면서 자리만 차지한다.
  */
-export const NAVER_SITE_VERIFICATION = "";
+export const NAVER_SITE_VERIFICATION = "548804c9c797a703b9095ba62bd94644cc8a4cfd";
 
 export const SITE_NAME = "NEXPLAY";
 export const SITE_DESCRIPTION =

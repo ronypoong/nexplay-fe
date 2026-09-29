@@ -26,6 +26,25 @@ function nextHandler() {
 }
 
 /**
+ * 저장 키에 배포 버전을 섞는다.
+ *
+ * 예전에는 주소만으로 키를 만들어서, 배포해도 콜로에 남은 옛 HTML 을 최대 10분
+ * 더 내보냈다. 콜로마다 저장본이 따로라 같은 순간에 어떤 곳은 새 화면, 어떤
+ * 곳은 옛 화면이 나갔다. 네이버 소유확인 태그를 넣고 확인해 보니 세 번 중 한
+ * 번만 붙어 나왔다 — 크롤러가 잘못 걸리면 확인이 실패한다.
+ *
+ * 버전이 바뀌면 키가 통째로 바뀌므로 옛 저장본은 다시 읽히지 않는다. 남은
+ * 것들은 Cloudflare 가 알아서 밀어낸다.
+ *
+ * @param {URL} url
+ * @param {{ CF_VERSION?: { id?: string } }} env
+ */
+function cacheKey(url, env) {
+  const version = env.CF_VERSION?.id ?? "dev";
+  return new Request(`${url.origin}/__v/${version}${url.pathname}${url.search}`, { method: "GET" });
+}
+
+/**
  * @param {Request} request
  * @param {URL} url
  */
@@ -107,14 +126,18 @@ export default {
     const url = new URL(request.url);
     if (!cacheable(request, url)) return (await nextHandler()).fetch(request, env, ctx);
     const cache = caches.default;
-    const key = new Request(`${url.origin}${url.pathname}${url.search}`, { method: "GET" });
+    const key = cacheKey(url, env);
     const hit = await cache.match(key).catch(() => undefined);
     if (hit) {
       const ageSeconds = (Date.now() - Number(hit.headers.get("x-rendered-at") ?? 0)) / 1000;
       if (ageSeconds <= STALE_MAX_SECONDS) {
-        // 배경 갱신은 원래 요청을 그대로 다시 렌더한다. 이 요청의 응답은 이미
-        // 저장본으로 나갔으므로 렌더 결과는 저장에만 쓰인다.
-        if (ageSeconds > FRESH_SECONDS) ctx.waitUntil(renderAndStore(new Request(key, { headers: request.headers }), env, ctx, key, cache).then(() => {}));
+        // 배경 갱신은 원래 주소를 다시 렌더한다. 이 요청의 응답은 이미 저장본으로
+        // 나갔으므로 렌더 결과는 저장에만 쓰인다. 키는 /__v/{버전}/... 로 꾸민
+        // 주소라 렌더에 쓰면 안 된다 — 그 경로는 Next 에 존재하지 않는다.
+        if (ageSeconds > FRESH_SECONDS) {
+          const refresh = new Request(url.toString(), { headers: request.headers });
+          ctx.waitUntil(renderAndStore(refresh, env, ctx, key, cache).then(() => {}));
+        }
         return serveHit(hit);
       }
     }

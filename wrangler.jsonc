@@ -18,6 +18,13 @@
     "enabled": true
   },
 
+  // 배포된 버전 id. worker.js 가 HTML 캐시 키에 섞어서, 새로 배포하면 옛 저장본을
+  // 더 이상 읽지 않게 한다. 이게 없으면 배포 직후 콜로마다 옛 화면과 새 화면이
+  // 섞여 나간다 — 네이버 소유확인 태그가 있다가 없다가 했다.
+  "version_metadata": {
+    "binding": "CF_VERSION"
+  },
+
   // 밤새 손님이 없으면 Railway 원본이 잠들어 아침 첫 방문이 10초를 넘긴다(실측 12초).
   // 5분마다 원본을 찔러 깨워 둔다. scheduled 핸들러는 worker.js 에 있다.
   "triggers": {
