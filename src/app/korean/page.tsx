@@ -21,7 +21,7 @@ export default async function KoreanRadarPage() {
     <div className="page-hero compact">
       <span className="eyebrow">한국어 레이더</span>
       <h1>이 게임, 한국어 나와요?</h1>
-      <p>Steam 스토어에서 확인한 언어 지원을 퍼블리셔별로 모았습니다. 아직 발표되지 않은 작품은 그 퍼블리셔의 지난 이력으로 가능성을 가늠합니다. 지금 한국어로 할 수 있는 게임만 보려면 <Link href="/korean/games">한국어 지원 게임 목록</Link>으로 가세요.</p>
+      <p>Steam 스토어에서 확인한 언어 지원을 퍼블리셔별로 모았습니다. 아직 발표되지 않은 작품은 그 퍼블리셔의 지난 이력으로 가능성을 가늠합니다. 지금 한국어로 할 수 있는 게임만 보려면 <Link href="/korean/games">한국어 지원 게임 목록</Link>, 더빙까지 되는 것은 <Link href="/korean/voice">한국어 음성 지원 게임</Link>, 최근에 새로 잡힌 것은 <Link href="/korean/recent">한국어가 새로 생긴 게임</Link>에서 봅니다.</p>
     </div>
 
     <div className="radar-stats">

@@ -62,6 +62,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
   const koreanCount = games.filter((game) => game.koreanTextSupported === true).length;
+  const voiceCount = games.filter((game) => game.koreanAudioSupported === true).length;
   // 해마다 몇 개가 있는지는 카탈로그가 정한다. 빈 해를 걸면 사이트맵이 404 를 가리킨다.
   const years = new Map<string, number>();
   games.forEach((game) => {
@@ -75,6 +76,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...paged("/games", games.length, 0.7),
     // 이 사이트만 답할 수 있는 질문이라 우선순위를 높게 둔다.
     ...(koreanCount > 0 ? paged("/korean/games", koreanCount, 0.8) : []),
+    ...(voiceCount > 0 ? paged("/korean/voice", voiceCount, 0.8) : []),
+    { url: `${SITE_URL}/korean/recent`, lastModified: today, changeFrequency: "daily", priority: 0.8 },
     // 게임 한두 개짜리 해(2013, 2016, 2024…)는 사이트맵에 올리지 않는다. 페이지는
     // 살아 있지만, 줄 하나짜리 목록을 색인해 달라고 내미는 것은 사이트 전체의
     // 인상만 깎는다. 카탈로그가 차면 저절로 문턱을 넘는다.

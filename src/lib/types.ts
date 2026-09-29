@@ -126,6 +126,22 @@ export type KoreanForecast = {
   basis: string;
 };
 
+/**
+ * 한국어 지원이 새로 잡힌 기록.
+ *
+ * changeType 이 ADDED 면 없던 한국어가 붙은 것이고, CONFIRMED 면 우리가 그 게임의
+ * 언어를 처음 확인한 것이다. 날짜의 뜻이 서로 달라서 화면에서도 갈라 적는다.
+ */
+export type KoreanSupportChange = {
+  slug: string;
+  title: string;
+  publisher: string;
+  releaseLabel: string;
+  changeType: "ADDED" | "CONFIRMED";
+  audioSupported: boolean;
+  observedOn: string;
+};
+
 export type KoreanRadar = {
   coverage: { totalGames: number; checked: number; supported: number; fullVoice: number; unchecked: number };
   publishers: Array<{ publisher: string; checked: number; supported: number; fullVoice: number; ratePercent: number }>;
