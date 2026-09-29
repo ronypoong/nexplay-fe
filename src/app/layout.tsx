@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/header";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import { NAVER_SITE_VERIFICATION, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 import { ArchiveStatus } from "@/components/archive-status";
 import Link from "next/link";
@@ -23,6 +23,10 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image", title: "NEXPLAY — 다음 게임을 발견하는 곳", description: SITE_DESCRIPTION },
   robots: { index: true, follow: true },
+  // 네이버는 구글과 별도로 소유확인을 요구한다. 값이 없으면 태그를 내지 않는다.
+  ...(NAVER_SITE_VERIFICATION
+    ? { verification: { other: { "naver-site-verification": NAVER_SITE_VERIFICATION } } }
+    : {}),
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

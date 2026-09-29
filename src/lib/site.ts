@@ -15,6 +15,16 @@ export const GAMES_PER_PAGE = 120;
  */
 export const YEAR_PAGE_MIN_GAMES = 10;
 
+/**
+ * 네이버 서치어드바이저 소유확인 값.
+ *
+ * searchadvisor.naver.com 에서 사이트를 등록하면 `HTML 태그` 방식으로 문자열
+ * 하나를 준다. 그 값을 여기 적으면 `<meta name="naver-site-verification">` 이
+ * 모든 화면 머리에 붙는다. 비어 있으면 태그 자체를 내지 않는다 — 빈 값으로
+ * 붙은 메타 태그는 확인에 실패하면서 자리만 차지한다.
+ */
+export const NAVER_SITE_VERIFICATION = "";
+
 export const SITE_NAME = "NEXPLAY";
 export const SITE_DESCRIPTION =
   "올해 신작과 대형 게임사의 주요 작품을 발견하고, 출시 일정·패치·확장팩 소식을 한곳에서 봅니다. 한국어 지원 여부까지 확인하세요.";
