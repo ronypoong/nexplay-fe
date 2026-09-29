@@ -584,6 +584,21 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible { 
 .record-links strong { color:var(--text-strong); font-size:14.5px; }
 .record-links small { color:var(--muted); font-size:12.5px; }
 @media (max-width:600px) { .record-links { grid-template-columns:1fr; gap:10px; } }
+
+/* 전체 목록. 크롤러가 따라갈 수 있는 링크가 주인공이라 장식을 걷고 글자만 세운다. */
+.game-index { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 22px; margin:0; padding:0 0 0 1px; list-style:none; counter-reset:none; }
+.game-index li { min-width:0; border-bottom:1px solid var(--border); }
+.game-index a { display:flex; flex-direction:column; gap:2px; padding:11px 4px; color:var(--muted); }
+.game-index a:hover { background:var(--surface-2); }
+.game-index strong { color:var(--text-strong); font-size:14.5px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.game-index small { font-size:12.5px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.index-pager { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-top:28px; }
+.index-pages { display:flex; align-items:center; gap:4px; flex-wrap:wrap; color:var(--muted); font-size:13.5px; }
+.index-pages a,.index-pages b { display:grid; min-width:30px; height:30px; place-items:center; border-radius:4px; padding:0 7px; }
+.index-pages a:hover { color:var(--text-strong); background:var(--surface-2); }
+.index-pages b { color:var(--on-accent); background:var(--lime-deep); }
+.index-pages i { padding:0 3px; font-style:normal; }
+@media (max-width:600px) { .game-index { grid-template-columns:1fr; } }
 .collecting { display:flex; flex-direction:column; gap:9px; padding:26px 24px; background:var(--surface); border:1px dashed var(--border); border-radius:6px; }
 .collecting strong { font-size:16px; }
 .collecting p { margin:0; color:var(--muted); font-size:14px; }

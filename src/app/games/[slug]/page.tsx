@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { api, NexplayNotFoundError } from "@/lib/api";
+import type { Game } from "@/lib/types";
 import { SITE_URL } from "@/lib/site";
 import { GameArt } from "@/components/game-art";
 import { BookmarkButton } from "@/components/bookmark-button";
@@ -24,12 +25,38 @@ async function loadFull(slug: string) {
   }
 }
 
+/**
+ * 검색 결과에 뜨는 문장.
+ *
+ * 예전에는 game.description 앞 160자를 그대로 썼는데, 그 문장은 스팀 상점
+ * 소개문이다. 스팀·커뮤니티·다른 국내 사이트가 전부 같은 문장을 쓰고 있어서,
+ * 우리 페이지가 그 줄로 이길 방법이 없었다.
+ *
+ * 대신 이 사이트가 직접 들고 있는 사실만으로 짓는다 — 개발사, 출시일, 플랫폼,
+ * 장르, 한국어 지원. 조합이 게임마다 다르니 문장도 겹치지 않고, "게임명 한국어"
+ * 나 "게임명 출시일" 처럼 실제로 검색하는 말과도 맞는다.
+ */
+function searchSummary(game: Game) {
+  const korean = game.koreanTextSupported === true
+    ? (game.koreanAudioSupported === true ? "한국어 음성·자막 지원" : "한국어 자막 지원")
+    : game.koreanTextSupported === false ? "한국어 미지원" : null;
+  const facts = [
+    game.developer && `${game.developer} 개발`,
+    game.releaseLabel || (game.releaseDate !== "TBA" ? game.releaseDate : "출시일 미정"),
+    game.platforms.length ? game.platforms.join(" · ") : null,
+    game.genres.length ? game.genres.slice(0, 3).join(" · ") : null,
+    korean,
+  ].filter(Boolean);
+  const sentence = `${game.title} 출시 정보 — ${facts.join(", ")}. 일정 변경과 공식 소식을 NEXPLAY 에서 확인하세요.`;
+  // 검색 결과가 잘라 버리는 길이. 문장 중간에 끊기느니 여기서 끊는다.
+  return sentence.length > 160 ? `${sentence.slice(0, 157).trimEnd()}…` : sentence;
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   try {
     const game = await api.game(slug);
-    // 검색 결과에 뜨는 문장이다. 소개 앞부분을 쓰되 태그라인으로 대신할 수 있게 둔다.
-    const summary = (game.description || game.tagline).replace(/\s+/g, " ").trim().slice(0, 160);
+    const summary = searchSummary(game);
     return {
       title: game.title,
       description: summary,
