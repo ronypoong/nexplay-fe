@@ -398,6 +398,16 @@ body>main,body>.site-footer { margin-left:220px; }
 .brand-mark i { position:absolute; width:9px; height:26px; right:2px; bottom:-5px; background:var(--bg); transform:rotate(-37deg); z-index:2; }
 .brand-mark b { position:absolute; width:9px; height:9px; right:0; top:0; background:#43a6ff; border-radius:1px 5px 4px 1px; z-index:3; }
 .desktop-nav { order:2; height:auto; margin:12px 0 0; gap:5px; flex-direction:column; align-items:stretch; }
+/* 묶음. 평평한 열세 줄을 세 덩어리로 나눠 읽는 눈이 쉬게 한다. */
+.nav-group { display:flex; flex-direction:column; gap:3px; }
+.nav-group+.nav-group { margin-top:16px; }
+.nav-group-title { padding:0 12px 5px; color:var(--muted-2); font-size:11px; font-weight:800; letter-spacing:1.3px; text-transform:uppercase; }
+.nav-group-personal { margin-top:16px; padding-top:14px; border-top:1px solid var(--surface-3); }
+/* 이 사이트가 유일하게 답할 수 있는 질문이라 한 줄만 따로 세운다. */
+.desktop-nav a.feature { color:var(--text); }
+.desktop-nav a.feature>.nav-icon { color:var(--accent-text); }
+.desktop-nav a.feature:after { content:""; width:5px; height:5px; margin-left:auto; border-radius:50%; background:var(--lime-deep); }
+.desktop-nav a.feature.active:after { display:none; }
 .desktop-nav a { height:42px; padding:0 12px; display:flex; justify-content:flex-start; gap:11px; border-radius:8px; color:var(--muted); font-size:14px; }
 .desktop-nav a>.nav-icon { width:17px; height:17px; display:grid; place-items:center; color:var(--muted); text-align:center; }
 .desktop-nav a:hover>.nav-icon,.desktop-nav a.active>.nav-icon { color:var(--accent-text); }

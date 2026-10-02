@@ -18,24 +18,49 @@ function currentCalendarHref() {
 export function Header() {
   const pathname = usePathname();
   const [activeHash, setActiveHash] = useState("");
-  const nav = [
-    { href: "/", label: "홈", icon: <HomeIcon size={16}/> },
-    { href: "/#trending", label: "인기 급상승", icon: <TrendingIcon size={16}/> },
-    { href: "/news", label: "공식 소식", icon: <NewsIcon size={16}/> },
-    { href: "/#editor-picks", label: "주인장 픽", icon: <SparkIcon size={16}/> },
-    { href: "/#upcoming", label: "출시 예정", icon: <CalendarIcon size={16}/> },
-    // 기다리는 것들 바로 다음에 둔다. 여기만 지금 할 수 있는 것이라 묻히면 의미가 없다.
-    { href: "/playtests", label: "데모 · 베타", icon: <PlayIcon size={16}/> },
-    // 데모 바로 다음. 둘 다 "지금 할 수 있는 것" 이고, 기간이 끝나면 사라진다.
-    { href: "/deals", label: "할인 중", icon: <TagIcon size={16}/> },
-    { href: "/korean", label: "한국어 레이더", icon: <SparkIcon size={16}/> },
-    { href: "/goty", label: "GOTY 아카이브", icon: <SparkIcon size={16}/> },
-    // 추세와 연기, 약속과 결과는 메뉴가 화면을 넘겨서 뺐다. 공식 소식 화면 상단에 묶여 있다.
-    { href: "/saved", label: "담아둔 게임", icon: <BookmarkIcon size={16}/> },
-    { href: "/discover", label: "게임 탐색", icon: <DiscoverIcon size={16}/> },
-    { href: "/companies", label: "개발사 · 퍼블리셔", icon: <DiscoverIcon size={16}/> },
-    { href: currentCalendarHref(), label: "출시 캘린더", icon: <CalendarIcon size={16}/> },
+  /*
+   * 평평한 열세 줄이었다. 그중 셋(#trending, #editor-picks, #upcoming)은 홈 안의
+   * 자리로 가는 앵커라 메뉴 한 칸씩을 차지하면서도 갈 곳은 같은 화면이었고,
+   * 정작 이 사이트만 가진 화면(한국어 목록, 접근성, 약속과 결과)은 메뉴에
+   * 없었다. 앵커를 빼고 성격별로 묶는다.
+   *
+   * 묶음 이름은 "무엇을 하러 왔나" 로 나눈다 — 둘러보러 왔나, 지금 할 것을
+   * 찾나, 지난 기록을 보러 왔나.
+   *
+   * 한국어는 둘러보기에 두되 따로 표시한다. 스팀도 국내 매체도 카탈로그 전체의
+   * 언어를 모아 두지 않아서, 이 사이트가 유일하게 답할 수 있는 질문이 그것이다.
+   */
+  const navGroups: Array<{ title: string; items: Array<{ href: string; label: string; icon: React.ReactNode; feature?: boolean }> }> = [
+    {
+      title: "둘러보기",
+      items: [
+        { href: "/", label: "홈", icon: <HomeIcon size={16}/> },
+        { href: "/korean", label: "한국어 지원", icon: <SparkIcon size={16}/>, feature: true },
+        { href: "/discover", label: "게임 탐색", icon: <DiscoverIcon size={16}/> },
+        { href: currentCalendarHref(), label: "출시 캘린더", icon: <CalendarIcon size={16}/> },
+      ],
+    },
+    {
+      title: "지금",
+      items: [
+        { href: "/news", label: "공식 소식", icon: <NewsIcon size={16}/> },
+        // 둘 다 기간이 끝나면 사라진다. "지금" 아래 묶이는 이유가 그것이다.
+        { href: "/playtests", label: "데모 · 베타", icon: <PlayIcon size={16}/> },
+        { href: "/deals", label: "할인 중", icon: <TagIcon size={16}/> },
+      ],
+    },
+    {
+      title: "기록",
+      items: [
+        { href: "/promises", label: "약속과 결과", icon: <NewsIcon size={16}/> },
+        { href: "/trends", label: "추세와 연기", icon: <TrendingIcon size={16}/> },
+        { href: "/goty", label: "GOTY 아카이브", icon: <SparkIcon size={16}/> },
+      ],
+    },
   ];
+  // 내 것은 성격이 달라 묶음 밖에 따로 둔다.
+  const personal = { href: "/saved", label: "담아둔 게임", icon: <BookmarkIcon size={16}/> };
+  const nav = [...navGroups.flatMap((group) => group.items), personal];
 
   useEffect(() => {
     if (pathname !== "/") return;
@@ -62,7 +87,18 @@ export function Header() {
     <div className="header-inner shell">
       <Link className="brand" href="/" aria-label="NEXPLAY 홈"><span className="brand-mark"><i/><b/></span><span><strong>NEX<span>PLAY</span></strong><small>by RUBI-ON</small></span></Link>
       <nav className="desktop-nav" aria-label="주요 메뉴">
-        {nav.map((item) => <Link key={item.label} className={isActive(item.href) ? "active" : ""} href={item.href} onClick={() => { const hash = item.href.split("#")[1]; if (pathname === "/") setActiveHash(hash ?? ""); }}><span className="nav-icon">{item.icon}</span>{item.label}</Link>)}
+        {navGroups.map((group) => <div className="nav-group" key={group.title}>
+          <span className="nav-group-title">{group.title}</span>
+          {group.items.map((item) => <Link
+            key={item.label}
+            className={`${isActive(item.href) ? "active" : ""}${item.feature ? " feature" : ""}`.trim()}
+            href={item.href}
+            onClick={() => { const hash = item.href.split("#")[1]; if (pathname === "/") setActiveHash(hash ?? ""); }}
+          ><span className="nav-icon">{item.icon}</span>{item.label}</Link>)}
+        </div>)}
+        <div className="nav-group nav-group-personal">
+          <Link className={isActive(personal.href) ? "active" : ""} href={personal.href}><span className="nav-icon">{personal.icon}</span>{personal.label}</Link>
+        </div>
       </nav>
       <div className="header-actions">
         <ThemeToggle/>
