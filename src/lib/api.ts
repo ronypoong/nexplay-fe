@@ -1,4 +1,4 @@
-import type { Deals, Company, CompanyDetail, GameDetailBundle, EventDetail, SyncStatus, EditorPick, Feed, Game, GameCard, GameEvent, GameMetadata, GameRelease, Goty, KoreanRadar, KoreanSupportChange, PromiseLedger, PromiseRow, Trends } from "./types";
+import type { AccessibilityOverview, Deals, Company, CompanyDetail, GameDetailBundle, EventDetail, SyncStatus, EditorPick, Feed, Game, GameCard, GameEvent, GameMetadata, GameRelease, Goty, KoreanRadar, KoreanSupportChange, PromiseLedger, PromiseRow, Trends } from "./types";
 
 const API_BASE = process.env.NEXT_PUBLIC_NEXPLAY_API_BASE_URL;
 
@@ -92,6 +92,8 @@ export const api = {
   koreanRadar: () => request<KoreanRadar>("/api/v1/korean"),
   /** 한국어 지원이 새로 잡힌 게임. 붙은 것과 처음 확인한 것을 구분해 준다. */
   koreanRecent: (limit = 60) => request<KoreanSupportChange[]>(`/api/v1/korean/recent?limit=${limit}`),
+  /** 접근성 기능별 게임. 난이도 조정·색상 대체 같은 것으로 찾는 길. */
+  accessibility: () => request<AccessibilityOverview>("/api/v1/accessibility"),
   trends: () => request<Trends>("/api/v1/trends"),
   goty: () => request<Goty>("/api/v1/goty"),
   promises: () => request<PromiseLedger>("/api/v1/promises"),

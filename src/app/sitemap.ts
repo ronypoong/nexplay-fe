@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { api } from "@/lib/api";
 import { GAMES_PER_PAGE, SITE_URL, YEAR_PAGE_MIN_GAMES } from "@/lib/site";
+import { ACCESSIBILITY_SLUGS } from "@/lib/accessibility";
 
 // 카탈로그가 매일 바뀌므로 사이트맵도 요청 시점에 만든다.
 export const dynamic = "force-dynamic";
@@ -81,6 +82,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...(koreanCount > 0 ? paged("/korean/games", koreanCount, 0.8) : []),
     ...(voiceCount > 0 ? paged("/korean/voice", voiceCount, 0.8) : []),
     { url: `${SITE_URL}/korean/recent`, lastModified: today, changeFrequency: "daily", priority: 0.8 },
+    { url: `${SITE_URL}/playtests/korean`, lastModified: today, changeFrequency: "daily", priority: 0.8 },
+    { url: `${SITE_URL}/accessibility`, lastModified: today, changeFrequency: "weekly", priority: 0.6 },
+    ...Object.values(ACCESSIBILITY_SLUGS).map((slug) => ({
+      url: `${SITE_URL}/accessibility/${slug}`,
+      lastModified: today,
+      changeFrequency: "weekly" as const,
+      priority: 0.5,
+    })),
     // 해마다 한 장. "2019 goty" 처럼 해를 찍어 찾는 말이 검색에 실제로 있다.
     ...gotyYears.map((year) => ({
       url: `${SITE_URL}/goty/${year}`,

@@ -126,6 +126,24 @@ export type KoreanForecast = {
   basis: string;
 };
 
+/** 접근성 기능 하나와 그 기능을 가진 게임 수. */
+export type AccessibilityFeatureCount = { feature: string; gameCount: number };
+
+/** 접근성 기능이 확인된 게임 한 줄. */
+export type AccessibleGame = {
+  slug: string;
+  title: string;
+  developer: string;
+  releaseLabel: string;
+  koreanTextSupported: boolean | null;
+  features: string[];
+};
+
+export type AccessibilityOverview = {
+  features: AccessibilityFeatureCount[];
+  games: AccessibleGame[];
+};
+
 /**
  * 한국어 지원이 새로 잡힌 기록.
  *
@@ -160,6 +178,9 @@ export type GameArtRef = {
   accent: string;
   accent2: string;
   symbol: string;
+  /** 데모 목록에서 "한국어 되는 것만" 을 고르려고 받는다. 소식 카드에서는 쓰지 않는다. */
+  koreanTextSupported?: boolean | null;
+  koreanAudioSupported?: boolean | null;
 };
 
 export type SilenceEntry = {

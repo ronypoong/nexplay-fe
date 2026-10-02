@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { api } from "@/lib/api";
 import { EventCard } from "@/components/event-card";
 import { SectionHeading } from "@/components/section-heading";
@@ -20,7 +21,31 @@ export const metadata: Metadata = {
  * 있음"을 우리가 장담할 수 없다. 장담하는 대신 언제 올라온 소식인지를 크게
  * 보여 주고, 확인은 원문에서 하도록 링크를 남긴다.
  */
+/**
+ * 스팀 넥스트 페스트 안내 문구.
+ *
+ * 그 주에는 체험판이 쏟아지고 "넥스트 페스트" 로 찾는 사람도 몰린다. 다만 어떤
+ * 데모가 행사에 참가하는지는 우리가 알 수 없으므로 참가 여부를 말하지 않는다.
+ * 행사 기간만 알리고, 그 기간에 올라온 소식은 여기 쌓인다는 사실만 적는다.
+ *
+ * 행사 날짜는 Valve 가 정한다. 지나간 회차를 계속 떠들지 않도록 끝나면 사라진다.
+ */
+const NEXT_FEST = { start: "2026-10-19", end: "2026-10-26", label: "2026년 10월" };
+
+function nextFestNoteFor(todayIso: string) {
+  if (todayIso > NEXT_FEST.end) return null;
+  // 일주일 전부터 알린다. 그 전에는 아직 남의 이야기다.
+  const openFrom = new Date(`${NEXT_FEST.start}T00:00:00Z`);
+  openFrom.setUTCDate(openFrom.getUTCDate() - 7);
+  if (todayIso < openFrom.toISOString().slice(0, 10)) return null;
+  return todayIso >= NEXT_FEST.start
+    ? `스팀 넥스트 페스트 ${NEXT_FEST.label} 편이 열려 있습니다 (${NEXT_FEST.start} ~ ${NEXT_FEST.end}). 이 기간에 올라오는 체험판 소식도 여기에 쌓입니다.`
+    : `스팀 넥스트 페스트 ${NEXT_FEST.label} 편이 ${NEXT_FEST.start}에 시작합니다. 그 주에는 체험판 소식이 크게 늘어납니다.`;
+}
+
 export default async function PlaytestsPage() {
+  const seoulToday = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+  const nextFestNote = nextFestNoteFor(seoulToday);
   const events = await api.playtests();
   const demos = events.filter((event) => event.type === "DEMO" || event.hasDemo);
   const demoIds = new Set(demos.map((event) => event.id));
@@ -33,8 +58,14 @@ export default async function PlaytestsPage() {
     <div className="page-hero compact">
       <span className="eyebrow">데모 · 베타</span>
       <h1>지금 해볼 수 있는 게임</h1>
-      <p>공식 채널에서 확인한 체험판과 테스트 모집입니다. 출시를 기다리는 것과 달리 지금 바로 해볼 수 있지만, 기간이 끝나면 사라집니다.</p>
+      <p>
+        공식 채널에서 확인한 체험판과 테스트 모집입니다. 출시를 기다리는 것과 달리 지금 바로 해볼 수 있지만, 기간이 끝나면 사라집니다.
+        {" "}언어부터 거르려면 <Link href="/playtests/korean">한국어 되는 데모</Link>를 보세요.
+      </p>
     </div>
+
+    {/* 기간이 지나면 저절로 사라진다. 끝난 행사를 열려 있다고 말하지 않으려고 날짜로 끊는다. */}
+    {nextFestNote && <p className="season-note">{nextFestNote}</p>}
 
     {events.length === 0
       ? <div className="empty-panel"><strong>최근 확인된 데모나 베타가 없어요.</strong><p>공식 채널에서 새 소식이 오면 여기에 쌓입니다. 매일 오전에 확인합니다.</p></div>
