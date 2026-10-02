@@ -63,6 +63,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const koreanCount = games.filter((game) => game.koreanTextSupported === true).length;
   const voiceCount = games.filter((game) => game.koreanAudioSupported === true).length;
+  // 수상 기록이 있는 해만 올린다. 없는 해를 걸면 사이트맵이 404 를 가리킨다.
+  const goty = await api.goty().catch(() => ({ winners: [], nominees: [], watchlist: [] }));
+  const gotyYears = [...new Set([...goty.winners, ...goty.nominees].map((row) => row.awardYear))].sort((a, b) => b - a);
   // 해마다 몇 개가 있는지는 카탈로그가 정한다. 빈 해를 걸면 사이트맵이 404 를 가리킨다.
   const years = new Map<string, number>();
   games.forEach((game) => {
@@ -78,6 +81,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...(koreanCount > 0 ? paged("/korean/games", koreanCount, 0.8) : []),
     ...(voiceCount > 0 ? paged("/korean/voice", voiceCount, 0.8) : []),
     { url: `${SITE_URL}/korean/recent`, lastModified: today, changeFrequency: "daily", priority: 0.8 },
+    // 해마다 한 장. "2019 goty" 처럼 해를 찍어 찾는 말이 검색에 실제로 있다.
+    ...gotyYears.map((year) => ({
+      url: `${SITE_URL}/goty/${year}`,
+      lastModified: today,
+      changeFrequency: "yearly" as const,
+      priority: 0.6,
+    })),
     // 게임 한두 개짜리 해(2013, 2016, 2024…)는 사이트맵에 올리지 않는다. 페이지는
     // 살아 있지만, 줄 하나짜리 목록을 색인해 달라고 내미는 것은 사이트 전체의
     // 인상만 깎는다. 카탈로그가 차면 저절로 문턱을 넘는다.

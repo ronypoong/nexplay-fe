@@ -26,7 +26,7 @@ export default async function GotyPage() {
     <div className="page-hero compact">
       <span className="eyebrow">GOTY 아카이브</span>
       <h1>올해의 게임은 무엇이었나</h1>
-      <p>The Game Awards 올해의 게임 수상작과 후보입니다. Wikidata 에서 확인한 기록이며, 각 항목에 출처를 답니다.</p>
+      <p>The Game Awards 올해의 게임 수상작과 후보입니다. Wikidata 에서 확인한 기록이며, 각 항목에 출처를 답니다. 연도를 누르면 그 해만 따로 봅니다.</p>
     </div>
 
     {watchlist.length > 0 && <section className="content-section">
@@ -47,7 +47,8 @@ export default async function GotyPage() {
         {years.map((year) => {
           const entry = byYear.get(year)!;
           return <article className="goty-year" key={year}>
-            <h3>{year}</h3>
+            {/* 해마다 제 주소가 있다. "2019 goty" 로 찾는 사람이 닿을 곳이 여기였다. */}
+            <h3><Link href={`/goty/${year}`}>{year}</Link></h3>
             {entry.winner && <div className="goty-winner">
               <span className="goty-badge">수상</span>
               {entry.winner.slug
